@@ -1,0 +1,215 @@
+{
+    "settings": {
+        "diagramName": "Chat messaging app database v1",
+        "requiredOptionOutput": "Not Null"
+    },
+    "details": [
+        {
+            "detail": "Not Null",
+            "description": "Must have a value"
+        },
+        {
+            "detail": "PK",
+            "description": "Primary Key"
+        },
+        {
+            "detail": "FK",
+            "description": "Foreign Key"
+        },
+        {
+            "detail": "serial",
+            "description": "Auto integer"
+        },
+        {
+            "detail": "timestamp_tz",
+            "description": "Timestamp with date, time and time zone"
+        }
+    ],
+    "entities": [
+        {
+            "name": "User",
+            "fields": [
+                {
+                    "name": "user_id",
+                    "keyType": "PK",
+                    "dataType": "serial",
+                    "required": true
+                },
+                {
+                    "name": "username",
+                    "keyType": "",
+                    "dataType": "text",
+                    "required": true
+                },
+                {
+                    "name": "password",
+                    "keyType": "",
+                    "dataType": "text",
+                    "required": true
+                },
+                {
+                    "name": "created",
+                    "keyType": "",
+                    "dataType": "timestamp_tz",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "UserSetting",
+            "fields": [
+                {
+                    "name": "user_id",
+                    "keyType": "PK",
+                    "dataType": "integer",
+                    "required": true
+                },
+                {
+                    "name": "setting_id",
+                    "keyType": "PK",
+                    "dataType": "integer",
+                    "required": true
+                },
+                {
+                    "name": "value",
+                    "keyType": "",
+                    "dataType": "text",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "Setting",
+            "fields": [
+                {
+                    "name": "setting_id",
+                    "keyType": "PK",
+                    "dataType": "serial",
+                    "required": true
+                },
+                {
+                    "name": "description",
+                    "keyType": "",
+                    "dataType": "text",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "Message",
+            "fields": [
+                {
+                    "name": "message_id",
+                    "keyType": "PK",
+                    "dataType": "serial",
+                    "required": true
+                },
+                {
+                    "name": "text",
+                    "keyType": "",
+                    "dataType": "text",
+                    "required": true
+                },
+                {
+                    "name": "user_id",
+                    "keyType": "FK",
+                    "dataType": "integer",
+                    "required": true
+                },
+                {
+                    "name": "message_room_id",
+                    "keyType": "FK",
+                    "dataType": "integer",
+                    "required": true
+                },
+                {
+                    "name": "created",
+                    "keyType": "",
+                    "dataType": "timestamp_tz",
+                    "required": true
+                },
+                {
+                    "name": "updated",
+                    "keyType": "",
+                    "dataType": "timestamp_tz",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "MessageRoom",
+            "fields": [
+                {
+                    "name": "message_room_id",
+                    "keyType": "PK",
+                    "dataType": "serial",
+                    "required": true
+                },
+                {
+                    "name": "name",
+                    "keyType": "",
+                    "dataType": "text",
+                    "required": true
+                },
+                {
+                    "name": "user_id",
+                    "keyType": "FK",
+                    "dataType": "integer",
+                    "required": true
+                },
+                {
+                    "name": "password",
+                    "keyType": "",
+                    "dataType": "text",
+                    "required": true
+                },
+                {
+                    "name": "created",
+                    "keyType": "",
+                    "dataType": "timestamp_tz",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "MessageRoomMember",
+            "fields": [
+                {
+                    "name": "message_room_id",
+                    "keyType": "PK",
+                    "dataType": "integer",
+                    "required": true
+                },
+                {
+                    "name": "user_id",
+                    "keyType": "PK",
+                    "dataType": "integer",
+                    "required": true
+                }
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationship": "(PK) UserSetting.user_id << (PK) User.user_id"
+        },
+        {
+            "relationship": "(PK) UserSetting.setting_id << (PK) Setting.setting_id"
+        },
+        {
+            "relationship": "(FK) Message.user_id << (PK) User.user_id"
+        },
+        {
+            "relationship": "(FK) Message.message_room_id << (PK) MessageRoom.message_room_id"
+        },
+        {
+            "relationship": "(FK) MessageRoom.user_id << (PK) User.user_id"
+        },
+        {
+            "relationship": "(PK) MessageRoomMember.message_room_id << (PK) MessageRoom.message_room_id"
+        },
+        {
+            "relationship": "(PK) MessageRoomMember.user_id << (PK) User.user_id"
+        }
+    ]
+}
