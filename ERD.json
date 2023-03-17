@@ -127,12 +127,6 @@
                     "keyType": "",
                     "dataType": "timestamp_tz",
                     "required": true
-                },
-                {
-                    "name": "updated",
-                    "keyType": "",
-                    "dataType": "timestamp_tz",
-                    "required": true
                 }
             ]
         },
@@ -185,6 +179,12 @@
                     "keyType": "PK",
                     "dataType": "integer",
                     "required": true
+                },
+                {
+                    "name": "joined",
+                    "keyType": "",
+                    "dataType": "timestamp_tz",
+                    "required": true
                 }
             ]
         }
@@ -210,6 +210,12 @@
         },
         {
             "relationship": "(PK) MessageRoomMember.user_id << (PK) User.user_id"
+        },
+        {
+            "relationship": "(UNIQUE) User.username"
+        },
+        {
+            "relationship": "(UNIQUE) Setting.description"
         }
     ]
 }
