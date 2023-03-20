@@ -7,6 +7,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.example.app.model.AppUser;
+import com.example.app.model.Message;
+import com.example.app.model.MessageRoom;
+import com.example.app.model.MessageRoomMember;
+
 @SpringBootApplication
 public class ChatAppApplication {
 	
@@ -21,12 +26,24 @@ public class ChatAppApplication {
 		return (args) -> {
 			log.info("Test message...");
 			
-			log.info("(DISABLED) Creating test user...");
+			log.info("Creating test user...");
+			AppUser appUser = new AppUser("Test user 1", "testuser1");
 			
-			log.info("(DISABLED) Creating test message room...");
+			log.info("Creating test message room...");
+			MessageRoom messageRoom = new MessageRoom("Test message room", appUser, "testmessageroom");
 			
-			log.info("(DISABLED) Creating test message...");
+			log.info("Creating message room member...");
+			MessageRoomMember messageRoomMember = new MessageRoomMember(messageRoom, appUser);
+			
+			log.info("Creating test message...");
+			Message message = new Message("Test message 123", appUser, messageRoom);
+			
+			System.out.println(appUser);
+			System.out.println(messageRoom);
+			System.out.println(messageRoomMember);
+			System.out.println(message);
 		};
+		
 	}
 
 }

@@ -5,7 +5,7 @@ import java.time.ZoneOffset;
 
 public class AppUser {
 
-	private Long appUserId;
+	private long appUserId;
 	private String username;
 	private String hashedPassword;
 	private LocalDateTime created;
@@ -15,16 +15,17 @@ public class AppUser {
 	}
 
 	public AppUser(String username, String hashedPassword) {
+		appUserId = 0;
 		this.username = username;
 		this.hashedPassword = hashedPassword;
 		created = LocalDateTime.now(ZoneOffset.UTC);
 	}
 
-	public Long getAppUserId() {
+	public long getAppUserId() {
 		return appUserId;
 	}
 
-	public void setAppUserId(Long appUserId) {
+	public void setAppUserId(long appUserId) {
 		this.appUserId = appUserId;
 	}
 
