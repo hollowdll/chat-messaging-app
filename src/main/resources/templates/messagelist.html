@@ -8,8 +8,10 @@
 <body>
 	<h1>Messages</h1>
 	<div th:object="${message}">
-		<p th:text="${message.text}"></p>
-		<span th:text="${message.created}"></span>
+		<span th:text="${message.getText}"></span><br>
+		<span th:text="${message.getCreated}"></span><br>
+		<span th:text="${message.formatCreated}"></span><br>
+		<span th:text="${message.formatCreatedUTC}"></span>
 	</div>
 </body>
 </html>
