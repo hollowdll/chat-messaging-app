@@ -1,6 +1,7 @@
 package com.example.app.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class MessageRoomMember {
 
@@ -12,10 +13,10 @@ public class MessageRoomMember {
 		
 	}
 
-	public MessageRoomMember(MessageRoom messageRoom, AppUser member, LocalDateTime joined) {
+	public MessageRoomMember(MessageRoom messageRoom, AppUser member) {
 		this.messageRoom = messageRoom;
 		this.member = member;
-		this.joined = joined;
+		joined = LocalDateTime.now(ZoneOffset.UTC);
 	}
 
 	public MessageRoom getMessageRoom() {

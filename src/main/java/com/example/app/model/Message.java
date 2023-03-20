@@ -1,8 +1,11 @@
 package com.example.app.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class Message {
 
@@ -71,6 +74,11 @@ public class Message {
 	// Format to day/month/year hours:minutes:seconds UTC+0
 	public String formatCreatedUTC() {
 		return created.format(DateTimeFormatter.ofPattern("d/MM/uuuu HH:mm:ss")) + " UTC+0";
+	}
+	
+	public String formatCreatedToLocal() {
+		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("UTC"));
+		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).format(zonedDateTime);
 	}
 
 	@Override

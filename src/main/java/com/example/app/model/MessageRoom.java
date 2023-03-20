@@ -1,6 +1,7 @@
 package com.example.app.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class MessageRoom {
 
@@ -14,11 +15,11 @@ public class MessageRoom {
 		
 	}
 
-	public MessageRoom(String name, AppUser owner, String hashedPassword, LocalDateTime created) {
+	public MessageRoom(String name, AppUser owner, String hashedPassword) {
 		this.name = name;
 		this.owner = owner;
 		this.hashedPassword = hashedPassword;
-		this.created = created;
+		created = LocalDateTime.now(ZoneOffset.UTC);
 	}
 
 	public Long getMessageRoomId() {
