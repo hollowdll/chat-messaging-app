@@ -6,31 +6,29 @@ import java.time.format.DateTimeFormatter;
 
 public class Message {
 
-	private Long id;
+	private Long messageId;
 	private String text;
-	private int userId, messageRoomId;
-	private String created;
+	private AppUser sender;
+	private MessageRoom messageRoom;
+	private LocalDateTime created;
 	
 	public Message() {
-		text = "";
-		userId = 0;
-		messageRoomId = 0;
-		created = LocalDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME);
+		
 	}
 	
-	public Message(String text, int userId, int messageRoomId, String created) {
+	public Message(String text, AppUser sender, MessageRoom messageRoom, LocalDateTime created) {
 		this.text = text;
-		this.userId = userId;
-		this.messageRoomId = messageRoomId;
+		this.sender = sender;
+		this.messageRoom = messageRoom;
 		this.created = created;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getMessageId() {
+		return messageId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setMessageId(Long messageId) {
+		this.messageId = messageId;
 	}
 
 	public String getText() {
@@ -41,34 +39,34 @@ public class Message {
 		this.text = text;
 	}
 
-	public int getUserId() {
-		return userId;
+	public AppUser getSender() {
+		return sender;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setSender(AppUser sender) {
+		this.sender = sender;
 	}
 
-	public int getMessageRoomId() {
-		return messageRoomId;
+	public MessageRoom getMessageRoom() {
+		return messageRoom;
 	}
 
-	public void setMessageRoomId(int messageRoomId) {
-		this.messageRoomId = messageRoomId;
+	public void setMessageRoom(MessageRoom messageRoom) {
+		this.messageRoom = messageRoom;
 	}
 
-	public String getCreated() {
+	public LocalDateTime getCreated() {
 		return created;
 	}
 
-	public void setCreated(String created) {
+	public void setCreated(LocalDateTime created) {
 		this.created = created;
 	}
 
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", text=" + text + ", userId=" + userId + ", messageRoomId=" + messageRoomId
-				+ ", created=" + created + "]";
+		return "Message [messageId=" + messageId + ", text=" + text + ", sender=" + sender + ", messageRoom="
+				+ messageRoom + ", created=" + created + "]";
 	}
 	
 }
