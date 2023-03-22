@@ -19,23 +19,6 @@ CREATE TABLE IF NOT EXISTS public.users
 ALTER TABLE IF EXISTS public.users
     OWNER to postgres;
 
-/* messages */
-
-DROP TABLE IF EXISTS public.messages;
-
-CREATE TABLE IF NOT EXISTS public.messages
-(
-    message_id serial NOT NULL,
-    text text NOT NULL,
-    user_id integer NOT NULL,
-    message_room_id integer NOT NULL,
-    created timestamp with time zone NOT NULL,
-    PRIMARY KEY (message_id)
-);
-
-ALTER TABLE IF EXISTS public.messages
-    OWNER to postgres;
-
 /* message_rooms */
 
 DROP TABLE IF EXISTS public.message_rooms;
@@ -53,6 +36,44 @@ CREATE TABLE IF NOT EXISTS public.message_rooms
 ALTER TABLE IF EXISTS public.message_rooms
     OWNER to postgres;
 
+ALTER TABLE IF EXISTS public.message_rooms
+    ADD CONSTRAINT fk_message_rooms_users FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+    NOT VALID;
+
+/* messages */
+
+DROP TABLE IF EXISTS public.messages;
+
+CREATE TABLE IF NOT EXISTS public.messages
+(
+    message_id serial NOT NULL,
+    text text NOT NULL,
+    user_id integer NOT NULL,
+    message_room_id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    PRIMARY KEY (message_id)
+);
+
+ALTER TABLE IF EXISTS public.messages
+    OWNER to postgres;
+
+ALTER TABLE IF EXISTS public.messages
+    ADD CONSTRAINT fk_messages_users FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+    NOT VALID;
+
+ALTER TABLE IF EXISTS public.messages
+    ADD CONSTRAINT fk_messages_message_rooms FOREIGN KEY (message_room_id)
+    REFERENCES public.message_rooms (message_room_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+    NOT VALID;
+
 /* message_room_members */
 
 DROP TABLE IF EXISTS public.message_room_members;
@@ -67,3 +88,17 @@ CREATE TABLE IF NOT EXISTS public.message_room_members
 
 ALTER TABLE IF EXISTS public.message_room_members
     OWNER to postgres;
+
+ALTER TABLE IF EXISTS public.message_room_members
+    ADD CONSTRAINT fk_message_room_members_message_rooms FOREIGN KEY (message_room_id)
+    REFERENCES public.message_rooms (message_room_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+    NOT VALID;
+
+ALTER TABLE IF EXISTS public.message_room_members
+    ADD CONSTRAINT fk_message_room_members_users FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+    NOT VALID;
