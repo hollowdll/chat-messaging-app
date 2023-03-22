@@ -1,12 +1,16 @@
 package com.example.app;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 
+import com.example.app.dao.AppUserDAO;
 import com.example.app.model.AppUser;
 import com.example.app.model.Message;
 import com.example.app.model.MessageRoom;
@@ -22,9 +26,11 @@ public class ChatAppApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner commandLineRunner() {
+	@Order(1)
+	public CommandLineRunner logTestObjects() {
 		return (args) -> {
-			log.info("Test message...");
+			System.out.println();
+			log.info("Creating test objects...");
 			
 			log.info("Creating test user...");
 			AppUser appUser = new AppUser("Test user 1", "testuser1");
@@ -43,7 +49,28 @@ public class ChatAppApplication {
 			System.out.println(messageRoomMember);
 			System.out.println(message);
 		};
-		
 	}
+	
+	@Bean
+	@Order(2)
+	public CommandLineRunner createAndSaveTestUser(AppUserDAO appUserDAO) {
+		return (args) -> {
+			System.out.println();
+			log.info("Creating and saving test user to database...");
+			
+			// No password hashing yet
+			AppUser appUser = new AppUser("Testuser123", "Testuser123password");
+			appUserDAO.save(appUser);
+			
+			log.info("Fetching all users from database...");
+			
+			List<AppUser> appUsers = appUserDAO.findAll();
+			
+			for (AppUser fetchedUser : appUsers) {
+				System.out.println(fetchedUser);
+			}
+		};
+	}
+	
 
 }

@@ -1,7 +1,6 @@
 package com.example.app.model;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 public class AppUser {
 
@@ -18,7 +17,7 @@ public class AppUser {
 		appUserId = 0;
 		this.username = username;
 		this.hashedPassword = hashedPassword;
-		created = LocalDateTime.now(ZoneOffset.UTC);
+		created = LocalDateTime.now();
 	}
 
 	public long getAppUserId() {

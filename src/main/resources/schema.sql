@@ -4,6 +4,9 @@
 
 /* users */
 
+DROP TABLE IF EXISTS public.message_room_members;
+DROP TABLE IF EXISTS public.messages;
+DROP TABLE IF EXISTS public.message_rooms;
 DROP TABLE IF EXISTS public.users;
 
 CREATE TABLE IF NOT EXISTS public.users
@@ -20,8 +23,6 @@ ALTER TABLE IF EXISTS public.users
     OWNER to postgres;
 
 /* message_rooms */
-
-DROP TABLE IF EXISTS public.message_rooms;
 
 CREATE TABLE IF NOT EXISTS public.message_rooms
 (
@@ -44,8 +45,6 @@ ALTER TABLE IF EXISTS public.message_rooms
     NOT VALID;
 
 /* messages */
-
-DROP TABLE IF EXISTS public.messages;
 
 CREATE TABLE IF NOT EXISTS public.messages
 (
@@ -75,8 +74,6 @@ ALTER TABLE IF EXISTS public.messages
     NOT VALID;
 
 /* message_room_members */
-
-DROP TABLE IF EXISTS public.message_room_members;
 
 CREATE TABLE IF NOT EXISTS public.message_room_members
 (
