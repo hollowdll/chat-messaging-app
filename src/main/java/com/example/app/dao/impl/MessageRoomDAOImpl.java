@@ -9,25 +9,27 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.app.dao.AppUserDAO;
 import com.example.app.mapper.AppUserRowMapper;
+import com.example.app.mapper.MessageRoomRowMapper;
 import com.example.app.model.AppUser;
+import com.example.app.model.MessageRoom;
 
 @Repository
-public class AppUserDAOImpl implements AppUserDAO {
+public class MessageRoomDAOImpl {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	// Save entity to the database and rollback in case of an error
 	@Transactional(rollbackFor = { SQLException.class }, readOnly = false)
-	public void save(AppUser appUser) {
-		String sql = "INSERT INTO users (username, password, created) VALUES (?,?,?)";
+	public void save(MessageRoom messageRoom) {
+		String sql = "INSERT INTO message_rooms (name, user_id, password, created) VALUES (?,?,?,?)";
 		
 		Object[] parameters = new Object[] {
-			appUser.getUsername(),
-			appUser.getHashedPassword(),
-			appUser.getCreated()
+			messageRoom.getName(),
+			messageRoom.getOwner().getAppUserId(),
+			messageRoom.getHashedPassword(),
+			messageRoom.getCreated()
 		};
 		
 		jdbcTemplate.update(sql, parameters);
@@ -35,12 +37,12 @@ public class AppUserDAOImpl implements AppUserDAO {
 	
 	// Find all entities in the database
 	@Transactional(readOnly = true)
-	public List<AppUser> findAll() {
-		String sql = "SELECT user_id, username, password, created FROM users";
-		RowMapper<AppUser> mapper = new AppUserRowMapper();
-		List<AppUser> appUsers = jdbcTemplate.query(sql, mapper);
+	public List<MessageRoom> findAll() {
+		String sql = "SELECT name, user_id, password, created FROM message_rooms";
+		RowMapper<MessageRoom> mapper = new MessageRoomRowMapper();
+		List<MessageRoom> messageRooms = jdbcTemplate.query(sql, mapper);
 		
-		return appUsers;
+		return messageRooms;
 	}
 	
 }
