@@ -1,13 +1,14 @@
 /* Create test database schema */
 /* Make sure to create database first in DBMS */
 /* Delete tables on program startup */
-
-/* users */
+/* Deletion order matters to prevent errors */
 
 DROP TABLE IF EXISTS public.message_room_members;
 DROP TABLE IF EXISTS public.messages;
 DROP TABLE IF EXISTS public.message_rooms;
 DROP TABLE IF EXISTS public.users;
+
+/* users */
 
 CREATE TABLE IF NOT EXISTS public.users
 (
