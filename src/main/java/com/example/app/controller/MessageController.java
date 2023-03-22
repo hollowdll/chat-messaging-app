@@ -11,7 +11,7 @@ import com.example.app.model.MessageRoom;
 @Controller
 public class MessageController {
 
-	@GetMapping("/")
+	@GetMapping("/messages")
 	public String showTestMessage(Model model) {
 		Message message = new Message(
 			"Test message 123",

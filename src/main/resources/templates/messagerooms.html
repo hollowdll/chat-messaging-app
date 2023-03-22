@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Chat App</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>My chat rooms</h1>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Owner</th>
+				<th>Created</th>
+				<th>Members</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="messageRoom : ${messageRooms}">
+				<td th:text="${messageRoom.getMessageRoomId}"></td>
+				<td th:text="${messageRoom.getName}"></td>
+				<td th:text="${messageRoom.getOwner.getUsername}"></td>
+				<td th:text="${messageRoom.getCreated}"></td>
+				<td>???</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
