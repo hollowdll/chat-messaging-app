@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,6 +33,8 @@ public class ChatAppApplication {
 		MessageRoomDAO messageRoomDAO
 	) {
 		return (args) -> {
+			// Create test data
+			
 			System.out.println();
 			log.info("Creating test objects...");
 			
@@ -50,6 +51,7 @@ public class ChatAppApplication {
 			
 			log.info("Creating test message...");
 			Message message = new Message("Test message 123", appUser, messageRoom);
+			message.setMessageId(1);
 			
 			System.out.println(appUser);
 			System.out.println(messageRoom);

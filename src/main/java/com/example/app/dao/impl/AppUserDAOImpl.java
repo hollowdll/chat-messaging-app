@@ -15,8 +15,12 @@ import com.example.app.model.AppUser;
 @Repository
 public class AppUserDAOImpl implements AppUserDAO {
 
+	private final JdbcTemplate jdbcTemplate;
+	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	public AppUserDAOImpl(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 	
 	public void save(AppUser appUser) {
 		String sql = """
@@ -37,7 +41,7 @@ public class AppUserDAOImpl implements AppUserDAO {
 		String sql = """
 			SELECT user_id, username, password, created
 			FROM users
-			LIMIT 100
+			LIMIT 50
 			""";
 		
 		RowMapper<AppUser> mapper = new AppUserRowMapper();

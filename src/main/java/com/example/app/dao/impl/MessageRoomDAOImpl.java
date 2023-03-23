@@ -16,11 +16,14 @@ import com.example.app.model.MessageRoom;
 @Repository
 public class MessageRoomDAOImpl implements MessageRoomDAO {
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
+	private final AppUserDAO appUserDAO;
 	
 	@Autowired
-	private AppUserDAO appUserDAO;
+	public MessageRoomDAOImpl(JdbcTemplate jdbcTemplate, AppUserDAO appUserDAO) {
+		this.jdbcTemplate = jdbcTemplate;
+		this.appUserDAO = appUserDAO;
+	}
 	
 	public void save(MessageRoom messageRoom) {
 		String sql = """
@@ -40,9 +43,9 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 	
 	public List<MessageRoom> findAll() {
 		String sql = """
-			SELECT name, user_id, password, created
+			SELECT message_room_id, name, user_id, password, created
 			FROM message_rooms
-			LIMIT 100
+			LIMIT 50
 			""";
 		
 		RowMapper<MessageRoom> mapper = new MessageRoomRowMapper(appUserDAO);
