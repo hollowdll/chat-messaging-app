@@ -10,8 +10,8 @@ public interface MessageDAO {
 
 	public void save(Message message);
 	public List<Message> findAll();
-	public Optional<Message> findById(long id);
-	public void deleteById(long id);
-	public void updateById(long id, Message message);
+	public Optional<Message> findById(int id);
+	public void deleteById(int id);
+	public void updateById(int id, Message message);
 	
 }

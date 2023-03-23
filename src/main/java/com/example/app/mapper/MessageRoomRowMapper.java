@@ -21,9 +21,9 @@ public class MessageRoomRowMapper implements RowMapper<MessageRoom> {
 
 	public MessageRoom mapRow(ResultSet rs, int rowNum) throws SQLException, NoSuchElementException {
 		MessageRoom messageRoom = new MessageRoom();
-		messageRoom.setMessageRoomId(rs.getLong("message_room_id"));
+		messageRoom.setMessageRoomId(rs.getInt("message_room_id"));
 		messageRoom.setName(rs.getString("name"));
-		messageRoom.setOwner(appUserDAO.findById(rs.getLong("user_id")).get());
+		messageRoom.setOwner(appUserDAO.findById(rs.getInt("user_id")).get());
 		messageRoom.setHashedPassword(rs.getString("password"));
 		messageRoom.setCreated(rs.getTimestamp("created").toLocalDateTime());
 		

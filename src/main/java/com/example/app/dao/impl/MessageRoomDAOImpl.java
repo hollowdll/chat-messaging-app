@@ -54,7 +54,7 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 		return messageRooms;
 	}
 	
-	public Optional<MessageRoom> findById(long id) {
+	public Optional<MessageRoom> findById(int id) {
 		String sql = """
 			SELECT message_room_id, name, user_id, password, created
 			FROM message_rooms
@@ -69,7 +69,7 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 		return messageRoom;
 	}
 	
-	public void deleteById(long id) {
+	public void deleteById(int id) {
 		String sql = """
 			DELETE FROM message_rooms
 			WHERE message_room_id = ?
@@ -78,7 +78,7 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 		jdbcTemplate.update(sql, id);
 	}
 	
-	public void updateById(long id, MessageRoom messageRoom) {
+	public void updateById(int id, MessageRoom messageRoom) {
 		String sql = """
 			UPDATE message_rooms
 			SET name = ?, password = ?

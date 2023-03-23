@@ -5,15 +5,13 @@ import java.time.ZoneOffset;
 
 public class MessageRoom {
 
-	private long messageRoomId;
+	private int messageRoomId;
 	private String name;
 	private AppUser owner;
 	private String hashedPassword;
 	private LocalDateTime created;
 	
-	public MessageRoom() {
-		
-	}
+	public MessageRoom() {}
 
 	public MessageRoom(String name, AppUser owner, String hashedPassword) {
 		messageRoomId = 0;
@@ -23,11 +21,11 @@ public class MessageRoom {
 		created = LocalDateTime.now(ZoneOffset.UTC);
 	}
 
-	public long getMessageRoomId() {
+	public int getMessageRoomId() {
 		return messageRoomId;
 	}
 
-	public void setMessageRoomId(long messageRoomId) {
+	public void setMessageRoomId(int messageRoomId) {
 		this.messageRoomId = messageRoomId;
 	}
 

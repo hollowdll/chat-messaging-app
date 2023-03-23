@@ -9,15 +9,13 @@ import java.time.format.FormatStyle;
 
 public class Message {
 
-	private long messageId;
+	private int messageId;
 	private String text;
 	private AppUser sender;
 	private MessageRoom messageRoom;
 	private LocalDateTime created;
 	
-	public Message() {
-		
-	}
+	public Message() {}
 	
 	public Message(String text, AppUser sender, MessageRoom messageRoom) {
 		messageId = 0;
@@ -27,11 +25,11 @@ public class Message {
 		created = LocalDateTime.now(ZoneOffset.UTC);
 	}
 
-	public long getMessageId() {
+	public int getMessageId() {
 		return messageId;
 	}
 
-	public void setMessageId(long messageId) {
+	public void setMessageId(int messageId) {
 		this.messageId = messageId;
 	}
 

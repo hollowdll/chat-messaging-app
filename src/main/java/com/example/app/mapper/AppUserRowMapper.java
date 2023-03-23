@@ -11,7 +11,7 @@ public class AppUserRowMapper implements RowMapper<AppUser> {
 
 	public AppUser mapRow(ResultSet rs, int rowNum) throws SQLException {
 		AppUser appUser = new AppUser();
-		appUser.setAppUserId(rs.getLong("user_id"));
+		appUser.setAppUserId(rs.getInt("user_id"));
 		appUser.setUsername(rs.getString("username"));
 		appUser.setHashedPassword(rs.getString("password"));
 		appUser.setCreated(rs.getTimestamp("created").toLocalDateTime());

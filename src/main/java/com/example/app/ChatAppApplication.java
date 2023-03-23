@@ -26,6 +26,10 @@ public class ChatAppApplication {
 		SpringApplication.run(ChatAppApplication.class, args);
 	}
 	
+	// CommandLineRunners will run at application startup.
+	// They create and save test data into the database
+	// They are mainly used for testing.
+	
 	@Bean
 	@Order(1)
 	public CommandLineRunner createAndSaveTestEntities(

@@ -10,8 +10,8 @@ public interface MessageRoomDAO {
 
 	public void save(MessageRoom messageRoom);
 	public List<MessageRoom> findAll();
-	public Optional<MessageRoom> findById(long id);
-	public void deleteById(long id);
-	public void updateById(long id, MessageRoom messageRoom);
+	public Optional<MessageRoom> findById(int id);
+	public void deleteById(int id);
+	public void updateById(int id, MessageRoom messageRoom);
 	
 }

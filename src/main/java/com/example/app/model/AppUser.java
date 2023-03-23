@@ -4,14 +4,12 @@ import java.time.LocalDateTime;
 
 public class AppUser {
 
-	private long appUserId;
+	private int appUserId;
 	private String username;
 	private String hashedPassword;
 	private LocalDateTime created;
 	
-	public AppUser() {
-		
-	}
+	public AppUser() {}
 
 	public AppUser(String username, String hashedPassword) {
 		appUserId = 0;
@@ -20,11 +18,11 @@ public class AppUser {
 		created = LocalDateTime.now();
 	}
 
-	public long getAppUserId() {
+	public int getAppUserId() {
 		return appUserId;
 	}
 
-	public void setAppUserId(long appUserId) {
+	public void setAppUserId(int appUserId) {
 		this.appUserId = appUserId;
 	}
 

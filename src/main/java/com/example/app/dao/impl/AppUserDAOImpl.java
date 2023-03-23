@@ -50,7 +50,7 @@ public class AppUserDAOImpl implements AppUserDAO {
 		return appUsers;
 	}
 	
-	public Optional<AppUser> findById(long id) {
+	public Optional<AppUser> findById(int id) {
 		String sql = """
 			SELECT user_id, username, password, created
 			FROM users
@@ -65,7 +65,7 @@ public class AppUserDAOImpl implements AppUserDAO {
 		return appUser;
 	}
 	
-	public void deleteById(long id) {
+	public void deleteById(int id) {
 		String sql = """
 			DELETE FROM users
 			WHERE user_id = ?
@@ -74,7 +74,7 @@ public class AppUserDAOImpl implements AppUserDAO {
 		jdbcTemplate.update(sql, id);
 	}
 	
-	public void updateById(long id, AppUser appUser) {
+	public void updateById(int id, AppUser appUser) {
 		String sql = """
 			UPDATE users
 			SET username = ?, password = ?

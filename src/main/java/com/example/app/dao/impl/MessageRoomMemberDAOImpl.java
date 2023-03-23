@@ -58,7 +58,7 @@ public class MessageRoomMemberDAOImpl implements MessageRoomMemberDAO {
 		return messageRoomMembers;
 	}
 	
-	public Optional<MessageRoomMember> findById(long messageRoomId, long appUserId) {
+	public Optional<MessageRoomMember> findById(int messageRoomId, int appUserId) {
 		String sql = """
 			SELECT message_room_id, user_id, joined
 			FROM messages_room_members
@@ -74,7 +74,7 @@ public class MessageRoomMemberDAOImpl implements MessageRoomMemberDAO {
 		return messageRoomMember;
 	}
 	
-	public void deleteById(long messageRoomId, long appUserId) {
+	public void deleteById(int messageRoomId, int appUserId) {
 		String sql = """
 			DELETE FROM message_room_members
 			WHERE message_room_id = ?

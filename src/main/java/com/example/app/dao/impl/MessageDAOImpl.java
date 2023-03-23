@@ -59,7 +59,7 @@ public class MessageDAOImpl implements MessageDAO {
 		return messages;
 	}
 	
-	public Optional<Message> findById(long id) {
+	public Optional<Message> findById(int id) {
 		String sql = """
 			SELECT message_id, text, user_id, message_room_id, created
 			FROM messages
@@ -74,7 +74,7 @@ public class MessageDAOImpl implements MessageDAO {
 		return message;
 	}
 	
-	public void deleteById(long id) {
+	public void deleteById(int id) {
 		String sql = """
 			DELETE FROM messages
 			WHERE message_id = ?
@@ -83,7 +83,7 @@ public class MessageDAOImpl implements MessageDAO {
 		jdbcTemplate.update(sql, id);
 	}
 	
-	public void updateById(long id, Message message) {
+	public void updateById(int id, Message message) {
 		String sql = """
 			UPDATE messages
 			SET text = ?

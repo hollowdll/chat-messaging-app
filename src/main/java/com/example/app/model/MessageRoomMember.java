@@ -9,9 +9,7 @@ public class MessageRoomMember {
 	private AppUser member;
 	private LocalDateTime joined;
 	
-	public MessageRoomMember() {
-		
-	}
+	public MessageRoomMember() {}
 
 	public MessageRoomMember(MessageRoom messageRoom, AppUser member) {
 		this.messageRoom = messageRoom;

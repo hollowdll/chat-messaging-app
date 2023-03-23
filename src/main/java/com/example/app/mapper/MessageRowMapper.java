@@ -24,10 +24,10 @@ public class MessageRowMapper implements RowMapper<Message> {
 
 	public Message mapRow(ResultSet rs, int rowNum) throws SQLException, NoSuchElementException {
 		Message message = new Message();
-		message.setMessageId(rs.getLong("message_id"));
+		message.setMessageId(rs.getInt("message_id"));
 		message.setText(rs.getString("text"));
-		message.setSender(appUserDAO.findById(rs.getLong("user_id")).get());
-		message.setMessageRoom(messageRoomDAO.findById(rs.getLong("message_room_id")).get());
+		message.setSender(appUserDAO.findById(rs.getInt("user_id")).get());
+		message.setMessageRoom(messageRoomDAO.findById(rs.getInt("message_room_id")).get());
 		message.setCreated(rs.getTimestamp("created").toLocalDateTime());
 		
 		return message;

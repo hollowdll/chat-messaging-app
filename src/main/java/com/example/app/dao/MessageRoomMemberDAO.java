@@ -10,7 +10,7 @@ public interface MessageRoomMemberDAO {
 
 	public void save(MessageRoomMember messageRoomMember);
 	public List<MessageRoomMember> findAll();
-	public Optional<MessageRoomMember> findById(long messageRoomId, long appUserId);
-	public void deleteById(long messageRoomId, long appUserId);
+	public Optional<MessageRoomMember> findById(int messageRoomId, int appUserId);
+	public void deleteById(int messageRoomId, int appUserId);
 	
 }

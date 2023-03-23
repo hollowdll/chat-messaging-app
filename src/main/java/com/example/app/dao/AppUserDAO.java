@@ -10,8 +10,8 @@ public interface AppUserDAO {
 	
 	public void save(AppUser appUser);
 	public List<AppUser> findAll();
-	public Optional<AppUser> findById(long id);
-	public void deleteById(long id);
-	public void updateById(long id, AppUser appUser);
+	public Optional<AppUser> findById(int id);
+	public void deleteById(int id);
+	public void updateById(int id, AppUser appUser);
 	
 }
