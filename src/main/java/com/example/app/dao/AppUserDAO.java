@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.example.app.model.AppUser;
 
+// Database operations for users
 public interface AppUserDAO {
 	
 	public void save(AppUser appUser);

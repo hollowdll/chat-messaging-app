@@ -19,7 +19,10 @@ public class AppUserDAOImpl implements AppUserDAO {
 	private JdbcTemplate jdbcTemplate;
 	
 	public void save(AppUser appUser) {
-		String sql = "INSERT INTO users (username, password, created) VALUES (?,?,?)";
+		String sql = """
+			INSERT INTO users (username, password, created)
+			VALUES (?,?,?)
+			""";
 		
 		Object[] parameters = new Object[] {
 			appUser.getUsername(),
@@ -31,7 +34,12 @@ public class AppUserDAOImpl implements AppUserDAO {
 	}
 	
 	public List<AppUser> findAll() {
-		String sql = "SELECT user_id, username, password, created FROM users LIMIT 100";
+		String sql = """
+			SELECT user_id, username, password, created
+			FROM users
+			LIMIT 100
+			""";
+		
 		RowMapper<AppUser> mapper = new AppUserRowMapper();
 		List<AppUser> appUsers = jdbcTemplate.query(sql, mapper);
 		
@@ -39,7 +47,12 @@ public class AppUserDAOImpl implements AppUserDAO {
 	}
 	
 	public Optional<AppUser> findById(long id) {
-		String sql = "SELECT user_id, username, password, created FROM users WHERE user_id = ?";
+		String sql = """
+			SELECT user_id, username, password, created
+			FROM users
+			WHERE user_id = ?
+			""";
+		
 		RowMapper<AppUser> mapper = new AppUserRowMapper();
 		Optional<AppUser> appUser = jdbcTemplate.query(sql, mapper, id)
 			.stream()
@@ -49,19 +62,27 @@ public class AppUserDAOImpl implements AppUserDAO {
 	}
 	
 	public void deleteById(long id) {
-		String sql = "DELETE FROM users WHERE user_id = ?";
+		String sql = """
+			DELETE FROM users
+			WHERE user_id = ?
+			""";
 		
 		jdbcTemplate.update(sql, id);
 	}
 	
 	public void updateById(long id, AppUser appUser) {
-		String sql = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
+		String sql = """
+			UPDATE users
+			SET username = ?, password = ?
+			WHERE user_id = ?
+			""";
+		
 		Object[] parameters = new Object[] {
 			appUser.getUsername(),
 			appUser.getHashedPassword()
 		};
 			
-		jdbcTemplate.update(sql, parameters);
+		jdbcTemplate.update(sql, parameters, id);
 	}
 	
 }
