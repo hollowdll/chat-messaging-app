@@ -1,13 +1,12 @@
 package com.example.app.dao.impl;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.app.dao.AppUserDAO;
 import com.example.app.mapper.AppUserRowMapper;
@@ -19,8 +18,6 @@ public class AppUserDAOImpl implements AppUserDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	// Save entity to the database and rollback in case of an error
-	@Transactional(rollbackFor = { SQLException.class }, readOnly = false)
 	public void save(AppUser appUser) {
 		String sql = "INSERT INTO users (username, password, created) VALUES (?,?,?)";
 		
@@ -33,14 +30,38 @@ public class AppUserDAOImpl implements AppUserDAO {
 		jdbcTemplate.update(sql, parameters);
 	}
 	
-	// Find all entities in the database
-	@Transactional(readOnly = true)
 	public List<AppUser> findAll() {
-		String sql = "SELECT user_id, username, password, created FROM users";
+		String sql = "SELECT user_id, username, password, created FROM users LIMIT 100";
 		RowMapper<AppUser> mapper = new AppUserRowMapper();
 		List<AppUser> appUsers = jdbcTemplate.query(sql, mapper);
 		
 		return appUsers;
+	}
+	
+	public Optional<AppUser> findById(long id) {
+		String sql = "SELECT user_id, username, password, created FROM users WHERE user_id = ?";
+		RowMapper<AppUser> mapper = new AppUserRowMapper();
+		Optional<AppUser> appUser = jdbcTemplate.query(sql, mapper, id)
+			.stream()
+			.findFirst();
+		
+		return appUser;
+	}
+	
+	public void deleteById(long id) {
+		String sql = "DELETE FROM users WHERE user_id = ?";
+		
+		jdbcTemplate.update(sql, id);
+	}
+	
+	public void updateById(long id, AppUser appUser) {
+		String sql = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
+		Object[] parameters = new Object[] {
+			appUser.getUsername(),
+			appUser.getHashedPassword()
+		};
+			
+		jdbcTemplate.update(sql, parameters);
 	}
 	
 }

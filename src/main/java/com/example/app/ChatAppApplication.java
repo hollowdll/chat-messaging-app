@@ -69,6 +69,15 @@ public class ChatAppApplication {
 			for (AppUser fetchedUser : appUsers) {
 				System.out.println(fetchedUser);
 			}
+			
+			log.info("Fetching test user from database...");
+			
+			System.out.println(appUserDAO
+				.findById(appUsers.stream()
+					.findFirst()
+					.get()
+					.getAppUserId())
+				.get());
 		};
 	}
 	
