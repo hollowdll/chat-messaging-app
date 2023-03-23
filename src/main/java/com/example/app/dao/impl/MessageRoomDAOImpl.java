@@ -86,8 +86,8 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 			""";
 		
 		Object[] parameters = new Object[] {
-				messageRoom.getName(),
-				messageRoom.getHashedPassword(),
+			messageRoom.getName(),
+			messageRoom.getHashedPassword(),
 		};
 			
 		jdbcTemplate.update(sql, parameters, id);

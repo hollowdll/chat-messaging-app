@@ -91,7 +91,7 @@ public class MessageDAOImpl implements MessageDAO {
 			""";
 		
 		Object[] parameters = new Object[] {
-				message.getText()
+			message.getText()
 		};
 			
 		jdbcTemplate.update(sql, parameters, id);
