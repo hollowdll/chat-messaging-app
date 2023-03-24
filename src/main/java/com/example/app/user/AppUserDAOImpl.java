@@ -1,4 +1,4 @@
-package com.example.app.dao.impl;
+package com.example.app.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,10 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import com.example.app.dao.AppUserDAO;
-import com.example.app.mapper.AppUserRowMapper;
-import com.example.app.model.AppUser;
 
 @Repository
 public class AppUserDAOImpl implements AppUserDAO {

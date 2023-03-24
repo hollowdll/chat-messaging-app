@@ -1,9 +1,7 @@
-package com.example.app.dao;
+package com.example.app.messageroommember;
 
 import java.util.List;
 import java.util.Optional;
-
-import com.example.app.model.MessageRoomMember;
 
 // Database operations for message room members
 public interface MessageRoomMemberDAO {

@@ -1,7 +1,10 @@
-package com.example.app.model;
+package com.example.app.messageroommember;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+
+import com.example.app.messageroom.MessageRoom;
+import com.example.app.user.AppUser;
 
 public class MessageRoomMember {
 

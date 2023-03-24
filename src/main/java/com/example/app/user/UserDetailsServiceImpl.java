@@ -1,4 +1,4 @@
-package com.example.app.service;
+package com.example.app.user;
 
 import java.util.Optional;
 
@@ -7,10 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.example.app.dao.AppUserDAO;
-import com.example.app.model.AppUser;
-import com.example.app.model.AuthenticatedUser;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

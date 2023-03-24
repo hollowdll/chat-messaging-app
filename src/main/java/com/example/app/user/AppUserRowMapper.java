@@ -1,11 +1,9 @@
-package com.example.app.mapper;
+package com.example.app.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
-
-import com.example.app.model.AppUser;
 
 public class AppUserRowMapper implements RowMapper<AppUser> {
 

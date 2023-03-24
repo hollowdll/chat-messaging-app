@@ -1,4 +1,4 @@
-package com.example.app.dao.impl;
+package com.example.app.message;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,11 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.app.dao.AppUserDAO;
-import com.example.app.dao.MessageDAO;
-import com.example.app.dao.MessageRoomDAO;
-import com.example.app.mapper.MessageRowMapper;
-import com.example.app.model.Message;
+import com.example.app.messageroom.MessageRoomDAO;
+import com.example.app.user.AppUserDAO;
 
 @Repository
 public class MessageDAOImpl implements MessageDAO {

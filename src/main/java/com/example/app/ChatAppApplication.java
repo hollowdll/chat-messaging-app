@@ -10,14 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 
-import com.example.app.dao.AppUserDAO;
-import com.example.app.dao.MessageDAO;
-import com.example.app.dao.MessageRoomDAO;
-import com.example.app.dao.MessageRoomMemberDAO;
-import com.example.app.model.AppUser;
-import com.example.app.model.Message;
-import com.example.app.model.MessageRoom;
-import com.example.app.model.MessageRoomMember;
+import com.example.app.message.Message;
+import com.example.app.message.MessageDAO;
+import com.example.app.messageroom.MessageRoom;
+import com.example.app.messageroom.MessageRoomDAO;
+import com.example.app.messageroommember.MessageRoomMember;
+import com.example.app.messageroommember.MessageRoomMemberDAO;
+import com.example.app.user.AppUser;
+import com.example.app.user.AppUserDAO;
 
 @SpringBootApplication
 public class ChatAppApplication {

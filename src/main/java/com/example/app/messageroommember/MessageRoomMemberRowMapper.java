@@ -1,4 +1,4 @@
-package com.example.app.mapper;
+package com.example.app.messageroommember;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,9 +7,8 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.example.app.dao.AppUserDAO;
-import com.example.app.dao.MessageRoomDAO;
-import com.example.app.model.MessageRoomMember;
+import com.example.app.messageroom.MessageRoomDAO;
+import com.example.app.user.AppUserDAO;
 
 public class MessageRoomMemberRowMapper implements RowMapper<MessageRoomMember> {
 

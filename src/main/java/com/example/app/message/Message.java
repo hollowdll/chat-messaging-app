@@ -1,4 +1,4 @@
-package com.example.app.model;
+package com.example.app.message;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -6,6 +6,9 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+
+import com.example.app.messageroom.MessageRoom;
+import com.example.app.user.AppUser;
 
 public class Message {
 
