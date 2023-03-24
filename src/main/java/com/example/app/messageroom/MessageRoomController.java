@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MessageRoomController {
 
-	@GetMapping("/rooms")
+	@GetMapping("/messagerooms")
 	public String messageRoomsPage() {
 		return "messagerooms";
 	}

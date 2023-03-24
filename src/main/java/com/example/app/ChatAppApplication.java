@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.app.message.Message;
 import com.example.app.message.MessageDAO;
@@ -47,7 +48,11 @@ public class ChatAppApplication {
 			log.info("Creating test objects...");
 			
 			log.info("Creating test user...");
-			AppUser appUser = new AppUser("Test user 1", "testuser1");
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+			String username = "Testuser123";
+			String password = "testuser123";
+			String hashedPassword = passwordEncoder.encode(password);
+			AppUser appUser = new AppUser(username, hashedPassword);
 			appUser.setAppUserId(1);
 			
 			log.info("Creating test message room...");

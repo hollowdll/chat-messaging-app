@@ -11,9 +11,14 @@ public class UserController {
 		return "index";
 	}
 	
+	@GetMapping("/login")
+	public String loginPage() {
+		return "login";
+	}
+	
 	@GetMapping("/testuser")
 	public String continueWithTestUser() {
-		return "redirect:/rooms";
+		return "redirect:/messagerooms";
 	}
 	
 }
