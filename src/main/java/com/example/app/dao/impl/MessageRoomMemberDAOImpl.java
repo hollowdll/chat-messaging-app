@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.example.app.dao.AppUserDAO;
 import com.example.app.dao.MessageRoomDAO;
@@ -13,6 +14,7 @@ import com.example.app.dao.MessageRoomMemberDAO;
 import com.example.app.mapper.MessageRoomMemberRowMapper;
 import com.example.app.model.MessageRoomMember;
 
+@Repository
 public class MessageRoomMemberDAOImpl implements MessageRoomMemberDAO {
 
 	private final JdbcTemplate jdbcTemplate;
@@ -61,7 +63,7 @@ public class MessageRoomMemberDAOImpl implements MessageRoomMemberDAO {
 	public Optional<MessageRoomMember> findById(int messageRoomId, int appUserId) {
 		String sql = """
 			SELECT message_room_id, user_id, joined
-			FROM messages_room_members
+			FROM message_room_members
 			WHERE message_room_id = ?
 			AND user_id = ?
 			""";

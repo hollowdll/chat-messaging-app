@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.example.app.dao.AppUserDAO;
 import com.example.app.dao.MessageDAO;
@@ -13,6 +14,7 @@ import com.example.app.dao.MessageRoomDAO;
 import com.example.app.mapper.MessageRowMapper;
 import com.example.app.model.Message;
 
+@Repository
 public class MessageDAOImpl implements MessageDAO {
 
 	private final JdbcTemplate jdbcTemplate;

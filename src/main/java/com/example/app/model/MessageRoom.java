@@ -18,7 +18,7 @@ public class MessageRoom {
 		this.name = name;
 		this.owner = owner;
 		this.hashedPassword = hashedPassword;
-		created = LocalDateTime.now(ZoneOffset.UTC);
+		created = LocalDateTime.now();
 	}
 
 	public int getMessageRoomId() {

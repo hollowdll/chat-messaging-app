@@ -22,7 +22,7 @@ public class Message {
 		this.text = text;
 		this.sender = sender;
 		this.messageRoom = messageRoom;
-		created = LocalDateTime.now(ZoneOffset.UTC);
+		created = LocalDateTime.now();
 	}
 
 	public int getMessageId() {
@@ -70,12 +70,8 @@ public class Message {
 		return created.format(DateTimeFormatter.ofPattern("d/MM/uuuu HH:mm:ss"));
 	}
 	
-	// Format to day/month/year hours:minutes:seconds UTC+0
-	public String formatCreatedUTC() {
-		return created.format(DateTimeFormatter.ofPattern("d/MM/uuuu HH:mm:ss")) + " UTC+0";
-	}
-	
-	public String formatCreatedToLocal() {
+	// Format to UTC time
+	public String formatCreatedToUTC() {
 		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("UTC"));
 		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).format(zonedDateTime);
 	}

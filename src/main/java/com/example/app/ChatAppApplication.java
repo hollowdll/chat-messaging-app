@@ -11,7 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 
 import com.example.app.dao.AppUserDAO;
+import com.example.app.dao.MessageDAO;
 import com.example.app.dao.MessageRoomDAO;
+import com.example.app.dao.MessageRoomMemberDAO;
 import com.example.app.model.AppUser;
 import com.example.app.model.Message;
 import com.example.app.model.MessageRoom;
@@ -34,7 +36,9 @@ public class ChatAppApplication {
 	@Order(1)
 	public CommandLineRunner createAndSaveTestEntities(
 		AppUserDAO appUserDAO,
-		MessageRoomDAO messageRoomDAO
+		MessageRoomDAO messageRoomDAO,
+		MessageRoomMemberDAO messageRoomMemberDAO,
+		MessageDAO messageDAO
 	) {
 		return (args) -> {
 			// Create test data
@@ -71,7 +75,11 @@ public class ChatAppApplication {
 			log.info("Saving test message room to database...");
 			messageRoomDAO.save(messageRoom);
 			
+			log.info("Saving test message room member to database...");
+			messageRoomMemberDAO.save(messageRoomMember);
 			
+			log.info("Savinf test message to database...");
+			messageDAO.save(message);
 		};
 	}
 	
@@ -107,6 +115,28 @@ public class ChatAppApplication {
 			log.info("Fetching test message room from database");
 			
 			System.out.println(messageRoomDAO.findById(1).get());
+		};
+	}
+	
+	@Bean
+	@Order(4)
+	public CommandLineRunner fetchTestMessageRoomMember(MessageRoomMemberDAO messageRoomMemberDAO) {
+		return (args) -> {
+			System.out.println();
+			log.info("Fetching test message room member from database...");
+			
+			System.out.println(messageRoomMemberDAO.findById(1,1).get());
+		};
+	}
+	
+	@Bean
+	@Order(5)
+	public CommandLineRunner fetchTestMessage(MessageDAO messageDAO) {
+		return (args) -> {
+			System.out.println();
+			log.info("Fetching test message from database...");
+			
+			System.out.println(messageDAO.findById(1).get());
 		};
 	}
 	

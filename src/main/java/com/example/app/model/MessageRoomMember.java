@@ -14,7 +14,7 @@ public class MessageRoomMember {
 	public MessageRoomMember(MessageRoom messageRoom, AppUser member) {
 		this.messageRoom = messageRoom;
 		this.member = member;
-		joined = LocalDateTime.now(ZoneOffset.UTC);
+		joined = LocalDateTime.now();
 	}
 
 	public MessageRoom getMessageRoom() {
