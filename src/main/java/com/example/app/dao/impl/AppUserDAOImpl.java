@@ -65,6 +65,21 @@ public class AppUserDAOImpl implements AppUserDAO {
 		return appUser;
 	}
 	
+	public Optional<AppUser> findByUsername(String username) {
+		String sql = """
+			SELECT user_id, username, password, created
+			FROM users
+			WHERE username = ?
+			""";
+		
+		RowMapper<AppUser> mapper = new AppUserRowMapper();
+		Optional<AppUser> appUser = jdbcTemplate.query(sql, mapper, username)
+			.stream()
+			.findFirst();
+		
+		return appUser;
+	}
+	
 	public void deleteById(int id) {
 		String sql = """
 			DELETE FROM users
