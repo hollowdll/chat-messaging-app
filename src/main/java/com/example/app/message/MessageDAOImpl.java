@@ -58,6 +58,20 @@ public class MessageDAOImpl implements MessageDAO {
 		return messages;
 	}
 	
+	public List<Message> findAllByMessageRoomId(int id) {
+		String sql = """
+			SELECT message_id, text, user_id, message_room_id, created
+			FROM messages
+			WHERE message_room_id = ?
+			LIMIT 50
+			""";
+		
+		RowMapper<Message> mapper = new MessageRowMapper(appUserDAO, messageRoomDAO);
+		List<Message> messages = jdbcTemplate.query(sql, mapper, id);
+		
+		return messages;
+	}
+	
 	public Optional<Message> findById(int id) {
 		String sql = """
 			SELECT message_id, text, user_id, message_room_id, created

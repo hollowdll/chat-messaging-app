@@ -8,6 +8,7 @@ public interface MessageDAO {
 
 	public void save(Message message);
 	public List<Message> findAll();
+	public List<Message> findAllByMessageRoomId(int id);
 	public Optional<Message> findById(int id);
 	public void deleteById(int id);
 	public void updateById(int id, Message message);

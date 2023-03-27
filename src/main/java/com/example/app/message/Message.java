@@ -75,7 +75,13 @@ public class Message {
 	// Format to UTC time
 	public String formatCreatedToUTC() {
 		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("UTC"));
-		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).format(zonedDateTime);
+		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
+	}
+	
+	// Format to Finnish time zone
+	public String formatCreatedToFinnish() {
+		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("Europe/Helsinki"));
+		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
 	}
 
 	@Override

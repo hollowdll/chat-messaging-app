@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+	<title>Chat</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<style>
+	.chat-message {
+		background-color: rgb(230,230,230);
+	}
+	
+	div {
+		margin-bottom: 10px;
+	}
+</style>
+
+<body>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Sign Out" />
+	</form>
+	
+	<nav>
+		<a href="/messagerooms">Back</a>
+	</nav>
+
+	<p>Signed in as <strong sec:authentication="name"></strong></p>
+	<h1 th:text="${messageRoomName}"></h1>
+	
+	<h3>Chat</h3>
+	
+	<div>
+		<input type="text" placeholder="Send a message" />
+		<button>Send</button>
+	</div>
+	
+	<div>
+		<div th:each="message : ${messages}" class="chat-message">
+			<span th:text="${message.formatCreatedToFinnish}"></span><br>
+			<strong><span th:text="${message.getSender.getUsername}"></span>:</strong>
+			<span th:text="${message.getText}"></span><br>
+		</div>
+	</div>
+</body>
+</html>

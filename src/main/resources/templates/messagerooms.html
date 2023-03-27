@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-	<title>Chat App</title>
+	<title>Message Rooms</title>
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
@@ -10,7 +10,7 @@
 		<input type="submit" value="Sign Out" />
 	</form>
 
-	<h2>Welcome, <span sec:authentication="name"></span></h2>
+	<p>Signed in as <strong sec:authentication="name"></strong></p>
 	<h1>My chat rooms</h1>
 	
 	<table>
@@ -20,10 +20,6 @@
 				<th>Name</th>
 				<th>Owner</th>
 				<th>Created</th>
-				<th>Join</th>
-				<th>Details (show joined date time and members)</th>
-				<th>Edit Settings</th>
-				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -34,10 +30,14 @@
 					? 'Me' : messageRoom.getOwner.getUsername">
 				</td>
 				<td th:text="${messageRoom.getCreated}"></td>
-				<td><button>Join</button></td>
+				<td><a th:href="@{/messagerooms/{id}(id=${messageRoom.getMessageRoomId})}">Join</a></td>
 				<td><button>Details</button></td>
-				<td><button>Edit Settings</button></td>
-				<td><button>Delete</button></td>
+				<td><button th:if="${#authentication.name == messageRoom.getOwner.getUsername}">
+					Edit Settings</button>
+				</td>
+				<td><button th:if="${#authentication.name == messageRoom.getOwner.getUsername}">
+					Delete</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>
