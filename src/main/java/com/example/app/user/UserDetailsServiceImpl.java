@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,10 +31,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		AppUser currentAppUser = appUser.get();
 		
 		// Return an authenticated user
-		return new User(
+		return new AuthenticatedUser(
 			currentAppUser.getUsername(),
 			currentAppUser.getHashedPassword(),
-			AuthorityUtils.createAuthorityList("USER")
+			AuthorityUtils.createAuthorityList("USER"),
+			currentAppUser
 		);
 	}
 	

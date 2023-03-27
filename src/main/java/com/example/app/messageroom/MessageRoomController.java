@@ -1,15 +1,17 @@
 package com.example.app.messageroom;
 
-import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.app.messageroommember.MessageRoomMember;
 import com.example.app.messageroommember.MessageRoomMemberDAO;
-
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.app.user.AuthenticatedUser;
 
 @Controller
 public class MessageRoomController {
@@ -24,12 +26,17 @@ public class MessageRoomController {
 	}
 
 	@GetMapping("/messagerooms")
-	public String messageRoomsPage(Model model, HttpServletRequest request) {
-		Principal principal = request.getUserPrincipal();
-		System.out.println(principal);
+	public String messageRoomsPage(Model model, Authentication auth) {
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		int appUserId = authenticatedUser.getAppUser().getAppUserId();
 		
-		// messageRoomMemberDAO.findAllByAppUserId(0);
+		List<MessageRoom> messageRooms = new ArrayList<MessageRoom>();
+		List<MessageRoomMember> messageRoomMembers = messageRoomMemberDAO.findAllByAppUserId(appUserId);
+		for (MessageRoomMember messageRoomMember : messageRoomMembers) {
+			messageRooms.add(messageRoomMember.getMessageRoom());
+		}
 		
+		model.addAttribute("messageRooms", messageRooms);
 		
 		return "messagerooms";
 	}
