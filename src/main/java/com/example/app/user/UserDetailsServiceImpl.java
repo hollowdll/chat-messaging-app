@@ -35,7 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			currentAppUser.getUsername(),
 			currentAppUser.getHashedPassword(),
 			AuthorityUtils.createAuthorityList("USER"),
-			currentAppUser
+			currentAppUser.getAppUserId(),
+			currentAppUser.getCreated()
 		);
 	}
 	

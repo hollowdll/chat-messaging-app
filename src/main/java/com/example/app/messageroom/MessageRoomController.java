@@ -27,9 +27,11 @@ public class MessageRoomController {
 
 	@GetMapping("/messagerooms")
 	public String messageRoomsPage(Model model, Authentication auth) {
+		// Get authenticated user
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
-		int appUserId = authenticatedUser.getAppUser().getAppUserId();
+		int appUserId = authenticatedUser.getUserId();
 		
+		// Get user's message rooms
 		List<MessageRoom> messageRooms = new ArrayList<MessageRoom>();
 		List<MessageRoomMember> messageRoomMembers = messageRoomMemberDAO.findAllByAppUserId(appUserId);
 		for (MessageRoomMember messageRoomMember : messageRoomMembers) {

@@ -20,16 +20,24 @@
 				<th>Name</th>
 				<th>Owner</th>
 				<th>Created</th>
-				<th>Members</th>
+				<th>Join</th>
+				<th>Details (show joined date time and members)</th>
+				<th>Edit Settings</th>
+				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="messageRoom : ${messageRooms}">
 				<td th:text="${messageRoom.getMessageRoomId}"></td>
 				<td th:text="${messageRoom.getName}"></td>
-				<td th:text="${messageRoom.getOwner.getUsername}"></td>
+				<td th:text="${#authentication.name == messageRoom.getOwner.getUsername}
+					? 'Me' : messageRoom.getOwner.getUsername">
+				</td>
 				<td th:text="${messageRoom.getCreated}"></td>
-				<td>???</td>
+				<td><button>Join</button></td>
+				<td><button>Details</button></td>
+				<td><button>Edit Settings</button></td>
+				<td><button>Delete</button></td>
 			</tr>
 		</tbody>
 	</table>
