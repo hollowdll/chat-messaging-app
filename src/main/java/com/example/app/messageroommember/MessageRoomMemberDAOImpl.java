@@ -73,6 +73,19 @@ public class MessageRoomMemberDAOImpl implements MessageRoomMemberDAO {
 		return messageRoomMember;
 	}
 	
+	public List<MessageRoomMember> findAllByAppUserId(int appUserId) {
+		String sql = """
+			SELECT message_room_id, user_id, joined
+			FROM message_room_members
+			WHERE user_id = ?
+			""";
+		
+		RowMapper<MessageRoomMember> mapper = new MessageRoomMemberRowMapper(messageRoomDAO, appUserDAO);
+		List<MessageRoomMember> messageRoomMembers = jdbcTemplate.query(sql, mapper, appUserId);
+		
+		return messageRoomMembers;
+	}
+	
 	public void deleteById(int messageRoomId, int appUserId) {
 		String sql = """
 			DELETE FROM message_room_members
