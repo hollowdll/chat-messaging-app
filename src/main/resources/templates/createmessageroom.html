@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Create a chat room</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<a href="/messagerooms">Back</a>
+	<h1>New chat room</h1>
+	<div>
+		<form th:object="${messageRoom}" th:action="@{/createmessageroom}" action="#" method="POST">
+			
+
+			<input type="submit" value="Save"></input>
+		</form>
+	</div>
+</body>
+</html>

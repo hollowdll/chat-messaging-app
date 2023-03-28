@@ -74,4 +74,9 @@ public class MessageRoomController {
 		return "chat";
 	}
 	
+	@GetMapping("/createmessageroom")
+	public String createMessageRoomPage() {
+		return "createmessageroom";
+	}
+	
 }
