@@ -4,17 +4,16 @@
 	<title>Chat</title>
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		.chat-message {
+			background-color: rgb(230,230,230);
+		}
+		
+		div {
+			margin-bottom: 10px;
+		}
+	</style>
 </head>
-
-<style>
-	.chat-message {
-		background-color: rgb(230,230,230);
-	}
-	
-	div {
-		margin-bottom: 10px;
-	}
-</style>
 
 <body>
 	<form th:action="@{/logout}" method="post">

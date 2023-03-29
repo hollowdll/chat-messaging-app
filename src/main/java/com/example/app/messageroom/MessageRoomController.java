@@ -75,7 +75,8 @@ public class MessageRoomController {
 	}
 	
 	@GetMapping("/createmessageroom")
-	public String createMessageRoomPage() {
+	public String createMessageRoomPage(Model model) {
+		model.addAttribute("messageRoom", new MessageRoom());
 		return "createmessageroom";
 	}
 	

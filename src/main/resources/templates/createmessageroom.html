@@ -3,13 +3,23 @@
 <head>
 	<title>Create a chat room</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		div {
+			margin-bottom: 10px;
+		}
+	</style>
 </head>
 <body>
 	<a href="/messagerooms">Back</a>
 	<h1>New chat room</h1>
 	<div>
 		<form th:object="${messageRoom}" th:action="@{/createmessageroom}" action="#" method="POST">
-			
+			<div>
+				<input type="text" id="name" placeholder="Name" th:field="*{name}">
+			</div>
+			<div>
+				<input type="text" id="hashedPassword" placeholder="Password" th:field="*{hashedPassword}">
+			</div>
 
 			<input type="submit" value="Save"></input>
 		</form>

@@ -12,7 +12,13 @@ public class MessageRoom {
 	private String hashedPassword;
 	private LocalDateTime created;
 	
-	public MessageRoom() {}
+	public MessageRoom() {
+		messageRoomId = 0;
+		name = "";
+		owner = null;
+		hashedPassword = "";
+		created = LocalDateTime.now();
+	}
 
 	public MessageRoom(String name, AppUser owner, String hashedPassword) {
 		messageRoomId = 0;
