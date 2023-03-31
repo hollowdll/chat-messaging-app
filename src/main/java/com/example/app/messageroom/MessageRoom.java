@@ -4,11 +4,19 @@ import java.time.LocalDateTime;
 
 import com.example.app.user.AppUser;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class MessageRoom {
 
 	private int messageRoomId;
+	
+	@NotBlank(message = "Name cannot be blank")
+	@Size(min=1, max=30, message = "Name must be between 1 and 30 characters")
 	private String name;
+	
 	private AppUser owner;
+	
 	private LocalDateTime created;
 	
 	public MessageRoom() {

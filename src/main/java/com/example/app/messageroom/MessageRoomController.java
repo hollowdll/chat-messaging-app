@@ -1,5 +1,6 @@
 package com.example.app.messageroom;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.app.message.Message;
 import com.example.app.message.MessageDAO;
 import com.example.app.user.AuthenticatedUser;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class MessageRoomController {
@@ -62,7 +66,23 @@ public class MessageRoomController {
 	}
 	
 	@PostMapping("/createmessageroom")
-	public String createMessageRoomSubmit(@ModelAttribute MessageRoom messageRoom, Authentication auth) {
+	public String createMessageRoomSubmit(
+		@Valid @ModelAttribute MessageRoom messageRoom,
+		BindingResult bindingResult,
+		Authentication auth,
+		Model model
+	) {
+		if (bindingResult.hasErrors()) {
+			// Show validation error messages
+			List<String> errorMessages = new ArrayList<String>();
+			bindingResult.getAllErrors().forEach((error) -> {
+				errorMessages.add(error.getDefaultMessage());
+			});
+			
+			model.addAttribute("errorMessages", errorMessages);
+			return "createmessageroom";
+		}
+		
 		// Get authenticated user
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
 		int appUserId = authenticatedUser.getUserId();

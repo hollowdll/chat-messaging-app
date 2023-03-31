@@ -34,7 +34,7 @@
 				<td th:text="${messageRoom.getCreated}"></td>
 				<td><a th:href="@{/messagerooms/{id}(id=${messageRoom.getMessageRoomId})}">Join</a></td>
 				<td><button th:if="${#authentication.name == messageRoom.getOwner.getUsername}">
-					Edit Settings</button>
+					Edit</button>
 				</td>
 				<td><button th:if="${#authentication.name == messageRoom.getOwner.getUsername}">
 					Delete</button>
