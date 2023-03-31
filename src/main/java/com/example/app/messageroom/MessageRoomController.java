@@ -49,7 +49,7 @@ public class MessageRoomController {
 		MessageRoom messageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
 		
 		if (messageRoom == null) {
-			return "404";
+			return "error";
 		}
 		
 		// Find message history
@@ -105,7 +105,7 @@ public class MessageRoomController {
 		MessageRoom messageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
 		
 		if (messageRoom == null) {
-			return "404";
+			return "error";
 		}
 		
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
@@ -146,7 +146,7 @@ public class MessageRoomController {
 		MessageRoom fetchedMessageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
 		
 		if (fetchedMessageRoom == null) {
-			return "404";
+			return "error";
 		}
 		
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
