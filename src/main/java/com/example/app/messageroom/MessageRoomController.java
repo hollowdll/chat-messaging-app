@@ -33,7 +33,7 @@ public class MessageRoomController {
 	}
 
 	@GetMapping("/messagerooms")
-	public String messageRoomsPage(Model model, Authentication auth) {
+	public String messageRoomsPage(Authentication auth, Model model) {
 		// Get message rooms
 		List<MessageRoom> messageRooms = messageRoomDAO.findAll();
 		model.addAttribute("messageRooms", messageRooms);
@@ -42,7 +42,7 @@ public class MessageRoomController {
 	}
 	
 	@GetMapping("/messagerooms/{id}")
-	public String chatPage(Model model, @PathVariable("id") int messageRoomId) {
+	public String chatPage(@PathVariable("id") int messageRoomId, Model model) {
 		// Check if message room exists
 		MessageRoom messageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
 		
@@ -62,6 +62,7 @@ public class MessageRoomController {
 	@GetMapping("/createmessageroom")
 	public String createMessageRoomPage(Model model) {
 		model.addAttribute("messageRoom", new MessageRoom());
+		
 		return "createmessageroom";
 	}
 	
@@ -80,6 +81,7 @@ public class MessageRoomController {
 			});
 			
 			model.addAttribute("errorMessages", errorMessages);
+			
 			return "createmessageroom";
 		}
 		
@@ -89,6 +91,45 @@ public class MessageRoomController {
 		
 		messageRoom.setCreated(LocalDateTime.now());
 		messageRoomDAO.saveWithOwnerId(messageRoom, appUserId);
+		
+		return "redirect:/messagerooms";
+	}
+	
+	@GetMapping("/editmessageroom/{id}")
+	public String editMessageRoomPage(@PathVariable("id") int messageRoomId, Model model) {
+		// Check if message room exists
+		MessageRoom messageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
+		
+		if (messageRoom == null) {
+			return "404";
+		}
+		
+		model.addAttribute("messageRoom", messageRoom);
+		
+		return "editmessageroom";
+	}
+	
+	@PostMapping("/editmessageroom/{id}")
+	public String editMessageRoomSubmit(
+		@PathVariable("id") int messageRoomId,
+		@Valid @ModelAttribute MessageRoom messageRoom,
+		BindingResult bindingResult,
+		Authentication auth,
+		Model model
+	) {
+		if (bindingResult.hasErrors()) {
+			// Show validation error messages
+			List<String> errorMessages = new ArrayList<String>();
+			bindingResult.getAllErrors().forEach((error) -> {
+				errorMessages.add(error.getDefaultMessage());
+			});
+			
+			model.addAttribute("errorMessages", errorMessages);
+			
+			return "editmessageroom";
+		}
+		
+		messageRoomDAO.updateById(messageRoomId, messageRoom);
 		
 		return "redirect:/messagerooms";
 	}

@@ -94,12 +94,8 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 			SET name = ?
 			WHERE message_room_id = ?
 			""";
-		
-		Object[] parameters = new Object[] {
-			messageRoom.getName()
-		};
 			
-		jdbcTemplate.update(sql, parameters, id);
+		jdbcTemplate.update(sql, messageRoom.getName(), id);
 	}
 	
 }

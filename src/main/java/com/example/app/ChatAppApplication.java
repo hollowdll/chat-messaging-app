@@ -44,37 +44,45 @@ public class ChatAppApplication {
 			System.out.println();
 			log.info("Creating test objects...");
 			
-			log.info("Creating test user...");
+			log.info("Creating test users...");
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-			String username = "Testuser123";
-			String password = "testuser123";
+			
+			String username = "Testuser1";
+			String password = "Testuser1";
 			String hashedPassword = passwordEncoder.encode(password);
 			AppUser appUser = new AppUser(username, hashedPassword);
 			appUser.setAppUserId(1);
+			
+			String username2 = "Testuser2";
+			String password2 = "Testuser2";
+			String hashedPassword2 = passwordEncoder.encode(password2);
+			AppUser appUser2 = new AppUser(username2, hashedPassword2);
+			appUser2.setAppUserId(2);
 			
 			log.info("Creating test message room...");
 			MessageRoom messageRoom = new MessageRoom("Test message room", appUser);
 			messageRoom.setMessageRoomId(1);
 			
 			log.info("Creating test message...");
-			Message message = new Message("Test message 123", appUser, messageRoom);
+			Message message = new Message("Test message 1", appUser, messageRoom);
 			message.setMessageId(1);
 			
-			System.out.println(appUser);
-			System.out.println(messageRoom);
-			System.out.println(message);
+			Message message2 = new Message("Test message 2", appUser2, messageRoom);
+			message.setMessageId(2);
 			
 			// Save test data
 			
 			System.out.println();
 			log.info("Saving test user to database...");
 			appUserDAO.save(appUser);
+			appUserDAO.save(appUser2);
 			
 			log.info("Saving test message room to database...");
 			messageRoomDAO.save(messageRoom);
 			
 			log.info("Savinf test message to database...");
 			messageDAO.save(message);
+			messageDAO.save(message2);
 		};
 	}
 	
