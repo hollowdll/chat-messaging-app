@@ -15,8 +15,6 @@ import com.example.app.message.Message;
 import com.example.app.message.MessageDAO;
 import com.example.app.messageroom.MessageRoom;
 import com.example.app.messageroom.MessageRoomDAO;
-import com.example.app.messageroommember.MessageRoomMember;
-import com.example.app.messageroommember.MessageRoomMemberDAO;
 import com.example.app.user.AppUser;
 import com.example.app.user.AppUserDAO;
 
@@ -38,7 +36,6 @@ public class ChatAppApplication {
 	public CommandLineRunner createAndSaveTestEntities(
 		AppUserDAO appUserDAO,
 		MessageRoomDAO messageRoomDAO,
-		MessageRoomMemberDAO messageRoomMemberDAO,
 		MessageDAO messageDAO
 	) {
 		return (args) -> {
@@ -56,11 +53,8 @@ public class ChatAppApplication {
 			appUser.setAppUserId(1);
 			
 			log.info("Creating test message room...");
-			MessageRoom messageRoom = new MessageRoom("Test message room", appUser, "testmessageroom");
+			MessageRoom messageRoom = new MessageRoom("Test message room", appUser);
 			messageRoom.setMessageRoomId(1);
-			
-			log.info("Creating test message room member...");
-			MessageRoomMember messageRoomMember = new MessageRoomMember(messageRoom, appUser);
 			
 			log.info("Creating test message...");
 			Message message = new Message("Test message 123", appUser, messageRoom);
@@ -68,7 +62,6 @@ public class ChatAppApplication {
 			
 			System.out.println(appUser);
 			System.out.println(messageRoom);
-			System.out.println(messageRoomMember);
 			System.out.println(message);
 			
 			// Save test data
@@ -79,9 +72,6 @@ public class ChatAppApplication {
 			
 			log.info("Saving test message room to database...");
 			messageRoomDAO.save(messageRoom);
-			
-			log.info("Saving test message room member to database...");
-			messageRoomMemberDAO.save(messageRoomMember);
 			
 			log.info("Savinf test message to database...");
 			messageDAO.save(message);
@@ -125,17 +115,6 @@ public class ChatAppApplication {
 	
 	@Bean
 	@Order(4)
-	public CommandLineRunner fetchTestMessageRoomMember(MessageRoomMemberDAO messageRoomMemberDAO) {
-		return (args) -> {
-			System.out.println();
-			log.info("Fetching test message room member from database...");
-			
-			System.out.println(messageRoomMemberDAO.findById(1,1).get());
-		};
-	}
-	
-	@Bean
-	@Order(5)
 	public CommandLineRunner fetchTestMessage(MessageDAO messageDAO) {
 		return (args) -> {
 			System.out.println();

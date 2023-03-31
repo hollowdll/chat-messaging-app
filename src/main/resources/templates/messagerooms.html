@@ -11,11 +11,10 @@
 	</form>
 
 	<p>Signed in as <strong sec:authentication="name"></strong></p>
-	<h1>My chat rooms</h1>
+	<h1>Chat rooms</h1>
 	
 	<div>
 		<a href="/createmessageroom">Create a room</a>
-		<a href="/joinmessageroom">Join a room</a>
 	</div>
 	
 	<table>
@@ -31,12 +30,9 @@
 			<tr th:each="messageRoom : ${messageRooms}">
 				<td th:text="${messageRoom.getMessageRoomId}"></td>
 				<td th:text="${messageRoom.getName}"></td>
-				<td th:text="${#authentication.name == messageRoom.getOwner.getUsername}
-					? 'Me' : messageRoom.getOwner.getUsername">
-				</td>
+				<td th:text="${messageRoom.getOwner.getUsername}"></td>
 				<td th:text="${messageRoom.getCreated}"></td>
 				<td><a th:href="@{/messagerooms/{id}(id=${messageRoom.getMessageRoomId})}">Join</a></td>
-				<td><button>Details</button></td>
 				<td><button th:if="${#authentication.name == messageRoom.getOwner.getUsername}">
 					Edit Settings</button>
 				</td>

@@ -1,6 +1,5 @@
 package com.example.app.messageroom;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.app.message.Message;
 import com.example.app.message.MessageDAO;
-import com.example.app.messageroommember.MessageRoomMember;
-import com.example.app.messageroommember.MessageRoomMemberDAO;
 import com.example.app.user.AuthenticatedUser;
 
 @Controller
@@ -24,32 +21,17 @@ public class MessageRoomController {
 	
 	private final MessageDAO messageDAO;
 	private final MessageRoomDAO messageRoomDAO;
-	private final MessageRoomMemberDAO messageRoomMemberDAO;
 	
 	@Autowired
-	public MessageRoomController(
-		MessageDAO messageDAO,
-		MessageRoomDAO messageRoomDAO,
-		MessageRoomMemberDAO messageRoomMemberDAO
-	) {
+	public MessageRoomController(MessageDAO messageDAO, MessageRoomDAO messageRoomDAO) {
 		this.messageDAO = messageDAO;
 		this.messageRoomDAO = messageRoomDAO;
-		this.messageRoomMemberDAO = messageRoomMemberDAO;
 	}
 
 	@GetMapping("/messagerooms")
 	public String messageRoomsPage(Model model, Authentication auth) {
-		// Get authenticated user
-		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
-		int appUserId = authenticatedUser.getUserId();
-		
-		// Get user's message rooms
-		List<MessageRoom> messageRooms = new ArrayList<MessageRoom>();
-		List<MessageRoomMember> messageRoomMembers = messageRoomMemberDAO.findAllByAppUserId(appUserId);
-		for (MessageRoomMember messageRoomMember : messageRoomMembers) {
-			messageRooms.add(messageRoomMember.getMessageRoom());
-		}
-		
+		// Get message rooms
+		List<MessageRoom> messageRooms = messageRoomDAO.findAll();
 		model.addAttribute("messageRooms", messageRooms);
 		
 		return "messagerooms";

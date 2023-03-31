@@ -9,22 +9,19 @@ public class MessageRoom {
 	private int messageRoomId;
 	private String name;
 	private AppUser owner;
-	private String hashedPassword;
 	private LocalDateTime created;
 	
 	public MessageRoom() {
 		messageRoomId = 0;
 		name = "";
 		owner = null;
-		hashedPassword = "";
 		created = null;
 	}
 
-	public MessageRoom(String name, AppUser owner, String hashedPassword) {
+	public MessageRoom(String name, AppUser owner) {
 		messageRoomId = 0;
 		this.name = name;
 		this.owner = owner;
-		this.hashedPassword = hashedPassword;
 		created = LocalDateTime.now();
 	}
 
@@ -52,14 +49,6 @@ public class MessageRoom {
 		this.owner = owner;
 	}
 
-	public String getHashedPassword() {
-		return hashedPassword;
-	}
-
-	public void setHashedPassword(String hashedPassword) {
-		this.hashedPassword = hashedPassword;
-	}
-
 	public LocalDateTime getCreated() {
 		return created;
 	}
@@ -71,7 +60,7 @@ public class MessageRoom {
 	@Override
 	public String toString() {
 		return "MessageRoom [messageRoomId=" + messageRoomId + ", name=" + name + ", owner=" + owner
-				+ ", hashedPassword=" + hashedPassword + ", created=" + created + "]";
+				+ ", created=" + created + "]";
 	}
 	
 }

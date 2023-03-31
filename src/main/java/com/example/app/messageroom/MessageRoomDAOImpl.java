@@ -24,14 +24,13 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 	
 	public void save(MessageRoom messageRoom) {
 		String sql = """
-			INSERT INTO message_rooms (name, user_id, password, created)
-			VALUES (?,?,?,?)
+			INSERT INTO message_rooms (name, user_id, created)
+			VALUES (?,?,?)
 			""";
 		
 		Object[] parameters = new Object[] {
 			messageRoom.getName(),
 			messageRoom.getOwner().getAppUserId(),
-			messageRoom.getHashedPassword(),
 			messageRoom.getCreated()
 		};
 		
@@ -40,14 +39,13 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 	
 	public void saveWithOwnerId(MessageRoom messageRoom, int appUserId) {
 		String sql = """
-			INSERT INTO message_rooms (name, user_id, password, created)
-			VALUES (?,?,?,?)
+			INSERT INTO message_rooms (name, user_id, created)
+			VALUES (?,?,?)
 			""";
 		
 		Object[] parameters = new Object[] {
 			messageRoom.getName(),
 			appUserId,
-			messageRoom.getHashedPassword(),
 			messageRoom.getCreated()
 		};
 		
@@ -56,9 +54,8 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 	
 	public List<MessageRoom> findAll() {
 		String sql = """
-			SELECT message_room_id, name, user_id, password, created
+			SELECT message_room_id, name, user_id, created
 			FROM message_rooms
-			LIMIT 50
 			""";
 		
 		RowMapper<MessageRoom> mapper = new MessageRoomRowMapper(appUserDAO);
@@ -69,7 +66,7 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 	
 	public Optional<MessageRoom> findById(int id) {
 		String sql = """
-			SELECT message_room_id, name, user_id, password, created
+			SELECT message_room_id, name, user_id, created
 			FROM message_rooms
 			WHERE message_room_id = ?
 			""";
@@ -94,13 +91,12 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 	public void updateById(int id, MessageRoom messageRoom) {
 		String sql = """
 			UPDATE message_rooms
-			SET name = ?, password = ?
+			SET name = ?
 			WHERE message_room_id = ?
 			""";
 		
 		Object[] parameters = new Object[] {
-			messageRoom.getName(),
-			messageRoom.getHashedPassword(),
+			messageRoom.getName()
 		};
 			
 		jdbcTemplate.update(sql, parameters, id);

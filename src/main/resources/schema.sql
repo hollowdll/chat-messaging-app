@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS public.message_rooms
     message_room_id serial NOT NULL,
     name text NOT NULL,
     user_id integer NOT NULL,
-    password text NOT NULL,
     created timestamp with time zone NOT NULL,
     PRIMARY KEY (message_room_id)
 );
@@ -70,33 +69,6 @@ ALTER TABLE IF EXISTS public.messages
 ALTER TABLE IF EXISTS public.messages
     ADD CONSTRAINT fk_messages_message_rooms FOREIGN KEY (message_room_id)
     REFERENCES public.message_rooms (message_room_id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE NO ACTION
-    NOT VALID;
-
-/* message_room_members */
-
-CREATE TABLE IF NOT EXISTS public.message_room_members
-(
-    message_room_id integer NOT NULL,
-    user_id integer NOT NULL,
-    joined timestamp with time zone NOT NULL,
-    PRIMARY KEY (message_room_id, user_id)
-);
-
-ALTER TABLE IF EXISTS public.message_room_members
-    OWNER to postgres;
-
-ALTER TABLE IF EXISTS public.message_room_members
-    ADD CONSTRAINT fk_message_room_members_message_rooms FOREIGN KEY (message_room_id)
-    REFERENCES public.message_rooms (message_room_id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE NO ACTION
-    NOT VALID;
-
-ALTER TABLE IF EXISTS public.message_room_members
-    ADD CONSTRAINT fk_message_room_members_users FOREIGN KEY (user_id)
-    REFERENCES public.users (user_id) MATCH SIMPLE
     ON UPDATE CASCADE
     ON DELETE NO ACTION
     NOT VALID;

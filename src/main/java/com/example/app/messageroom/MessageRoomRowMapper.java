@@ -23,7 +23,6 @@ public class MessageRoomRowMapper implements RowMapper<MessageRoom> {
 		messageRoom.setMessageRoomId(rs.getInt("message_room_id"));
 		messageRoom.setName(rs.getString("name"));
 		messageRoom.setOwner(appUserDAO.findById(rs.getInt("user_id")).get());
-		messageRoom.setHashedPassword(rs.getString("password"));
 		messageRoom.setCreated(rs.getTimestamp("created").toLocalDateTime());
 		
 		return messageRoom;
