@@ -32,6 +32,7 @@ public class MessageRoomController {
 		this.messageRoomDAO = messageRoomDAO;
 	}
 
+	// Message rooms page
 	@GetMapping("/messagerooms")
 	public String messageRoomsPage(Authentication auth, Model model) {
 		// Get message rooms
@@ -41,6 +42,7 @@ public class MessageRoomController {
 		return "messagerooms";
 	}
 	
+	// Chat page
 	@GetMapping("/messagerooms/{id}")
 	public String chatPage(@PathVariable("id") int messageRoomId, Model model) {
 		// Check if message room exists
@@ -59,6 +61,7 @@ public class MessageRoomController {
 		return "chat";
 	}
 	
+	// Creating page
 	@GetMapping("/createmessageroom")
 	public String createMessageRoomPage(Model model) {
 		model.addAttribute("messageRoom", new MessageRoom());
@@ -66,6 +69,7 @@ public class MessageRoomController {
 		return "createmessageroom";
 	}
 	
+	// Creating form submit
 	@PostMapping("/createmessageroom")
 	public String createMessageRoomSubmit(
 		@Valid @ModelAttribute MessageRoom messageRoom,
@@ -85,7 +89,6 @@ public class MessageRoomController {
 			return "createmessageroom";
 		}
 		
-		// Get authenticated user
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
 		int appUserId = authenticatedUser.getUserId();
 		
@@ -95,8 +98,9 @@ public class MessageRoomController {
 		return "redirect:/messagerooms";
 	}
 	
+	// Editing page
 	@GetMapping("/editmessageroom/{id}")
-	public String editMessageRoomPage(@PathVariable("id") int messageRoomId, Model model) {
+	public String editMessageRoomPage(@PathVariable("id") int messageRoomId, Authentication auth, Model model) {
 		// Check if message room exists
 		MessageRoom messageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
 		
@@ -104,11 +108,20 @@ public class MessageRoomController {
 			return "404";
 		}
 		
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		String username = authenticatedUser.getUsername();
+		
+		// Check if user is the owner of this message room
+		if (!username.equals(messageRoom.getOwner().getUsername())) {
+			return "redirect:/messagerooms";
+		}
+		
 		model.addAttribute("messageRoom", messageRoom);
 		
 		return "editmessageroom";
 	}
 	
+	// Editing form submit
 	@PostMapping("/editmessageroom/{id}")
 	public String editMessageRoomSubmit(
 		@PathVariable("id") int messageRoomId,
@@ -127,6 +140,21 @@ public class MessageRoomController {
 			model.addAttribute("errorMessages", errorMessages);
 			
 			return "editmessageroom";
+		}
+		
+		// Check if message room exists
+		MessageRoom fetchedMessageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
+		
+		if (fetchedMessageRoom == null) {
+			return "404";
+		}
+		
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		String username = authenticatedUser.getUsername();
+		
+		// Check if user is the owner of this message room
+		if (!username.equals(fetchedMessageRoom.getOwner().getUsername())) {
+			return "redirect:/messagerooms";
 		}
 		
 		messageRoomDAO.updateById(messageRoomId, messageRoom);
