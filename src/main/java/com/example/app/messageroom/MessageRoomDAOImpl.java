@@ -38,6 +38,22 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 		jdbcTemplate.update(sql, parameters);
 	}
 	
+	public void saveWithOwnerId(MessageRoom messageRoom, int appUserId) {
+		String sql = """
+			INSERT INTO message_rooms (name, user_id, password, created)
+			VALUES (?,?,?,?)
+			""";
+		
+		Object[] parameters = new Object[] {
+			messageRoom.getName(),
+			appUserId,
+			messageRoom.getHashedPassword(),
+			messageRoom.getCreated()
+		};
+		
+		jdbcTemplate.update(sql, parameters);
+	}
+	
 	public List<MessageRoom> findAll() {
 		String sql = """
 			SELECT message_room_id, name, user_id, password, created

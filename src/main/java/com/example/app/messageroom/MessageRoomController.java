@@ -2,17 +2,16 @@ package com.example.app.messageroom;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.app.message.Message;
 import com.example.app.message.MessageDAO;
@@ -78,6 +77,18 @@ public class MessageRoomController {
 	public String createMessageRoomPage(Model model) {
 		model.addAttribute("messageRoom", new MessageRoom());
 		return "createmessageroom";
+	}
+	
+	@PostMapping("/createmessageroom")
+	public String createMessageRoomSubmit(@ModelAttribute MessageRoom messageRoom, Authentication auth) {
+		// Get authenticated user
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		int appUserId = authenticatedUser.getUserId();
+		
+		messageRoom.setCreated(LocalDateTime.now());
+		messageRoomDAO.saveWithOwnerId(messageRoom, appUserId);
+		
+		return "redirect:/messagerooms";
 	}
 	
 }

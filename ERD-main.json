@@ -112,36 +112,7 @@
                     "required": true
                 },
                 {
-                    "name": "password",
-                    "keyType": "",
-                    "dataType": "text",
-                    "required": true
-                },
-                {
                     "name": "created",
-                    "keyType": "",
-                    "dataType": "timestamp_tz",
-                    "required": true
-                }
-            ]
-        },
-        {
-            "name": "MessageRoomMember",
-            "fields": [
-                {
-                    "name": "message_room_id",
-                    "keyType": "PK",
-                    "dataType": "integer",
-                    "required": true
-                },
-                {
-                    "name": "user_id",
-                    "keyType": "PK",
-                    "dataType": "integer",
-                    "required": true
-                },
-                {
-                    "name": "joined",
                     "keyType": "",
                     "dataType": "timestamp_tz",
                     "required": true
@@ -160,16 +131,7 @@
             "relationship": "(FK) MessageRoom.user_id << (PK) User.user_id"
         },
         {
-            "relationship": "(PK) MessageRoomMember.message_room_id << (PK) MessageRoom.message_room_id"
-        },
-        {
-            "relationship": "(PK) MessageRoomMember.user_id << (PK) User.user_id"
-        },
-        {
             "relationship": "(UNIQUE) User.username"
-        },
-        {
-            "relationship": "(COMPOSITE KEY) MessageRoomMember >> (message_room_id, user_id)"
         }
     ]
 }

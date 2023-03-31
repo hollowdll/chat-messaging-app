@@ -17,7 +17,7 @@ public class MessageRoom {
 		name = "";
 		owner = null;
 		hashedPassword = "";
-		created = LocalDateTime.now();
+		created = null;
 	}
 
 	public MessageRoom(String name, AppUser owner, String hashedPassword) {
