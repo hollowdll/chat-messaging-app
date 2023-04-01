@@ -61,7 +61,7 @@ public class MessageRoomController {
 		return "chat";
 	}
 	
-	// Creating page
+	// Message room create page
 	@GetMapping("/createmessageroom")
 	public String createMessageRoomPage(Model model) {
 		model.addAttribute("messageRoom", new MessageRoom());
@@ -69,7 +69,7 @@ public class MessageRoomController {
 		return "createmessageroom";
 	}
 	
-	// Creating form submit
+	// Message room create submit
 	@PostMapping("/createmessageroom")
 	public String createMessageRoomSubmit(
 		@Valid @ModelAttribute MessageRoom messageRoom,
@@ -98,7 +98,7 @@ public class MessageRoomController {
 		return "redirect:/messagerooms";
 	}
 	
-	// Editing page
+	// Message room edit page
 	@GetMapping("/editmessageroom/{id}")
 	public String editMessageRoomPage(@PathVariable("id") int messageRoomId, Authentication auth, Model model) {
 		// Check if message room exists
@@ -121,7 +121,7 @@ public class MessageRoomController {
 		return "editmessageroom";
 	}
 	
-	// Editing form submit
+	// Message room edit submit
 	@PostMapping("/editmessageroom/{id}")
 	public String editMessageRoomSubmit(
 		@PathVariable("id") int messageRoomId,
@@ -158,6 +158,30 @@ public class MessageRoomController {
 		}
 		
 		messageRoomDAO.updateById(messageRoomId, messageRoom);
+		
+		return "redirect:/messagerooms";
+	}
+	
+	// Delete message room
+	@GetMapping("/deletemessageroom/{id}")
+	public String deleteMessageRoom(@PathVariable("id") int messageRoomId, Authentication auth) {
+		// Check if message room exists
+		MessageRoom fetchedMessageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
+		
+		if (fetchedMessageRoom == null) {
+			return "error";
+		}
+		
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		String username = authenticatedUser.getUsername();
+		
+		// Check if user is the owner of this message room
+		if (!username.equals(fetchedMessageRoom.getOwner().getUsername())) {
+			return "redirect:/messagerooms";
+		}
+		
+		messageDAO.deleteAllByMessageRoomId(messageRoomId);
+		messageRoomDAO.deleteById(messageRoomId);
 		
 		return "redirect:/messagerooms";
 	}

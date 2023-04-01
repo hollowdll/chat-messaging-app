@@ -11,6 +11,7 @@ public interface MessageDAO {
 	public List<Message> findAllByMessageRoomId(int id);
 	public Optional<Message> findById(int id);
 	public void deleteById(int id);
+	public void deleteAllByMessageRoomId(int id);
 	public void updateById(int id, Message message);
 	
 }

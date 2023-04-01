@@ -4,6 +4,7 @@
 	<title>Message Rooms</title>
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script defer src="/scripts/main.js"></script>
 </head>
 <body>
 	<form th:action="@{/logout}" method="post">
@@ -36,8 +37,14 @@
 				<td th:if="${#authentication.name == messageRoom.getOwner.getUsername}">
 					<a th:href="@{/editmessageroom/{id}(id=${messageRoom.getMessageRoomId})}">Edit</a>
 				</td>
-				<td><button th:if="${#authentication.name == messageRoom.getOwner.getUsername}">
-					Delete</button>
+				<td>
+					<button th:if="${#authentication.name == messageRoom.getOwner.getUsername}"
+						th:onmouseup=
+						"confirmMessageRoomDeletion(
+							[[${messageRoom.getMessageRoomId}]],
+							[[${messageRoom.getName}]])"
+						>Delete
+					</button>
 				</td>
 			</tr>
 		</tbody>

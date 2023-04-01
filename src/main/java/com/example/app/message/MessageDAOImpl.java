@@ -49,7 +49,6 @@ public class MessageDAOImpl implements MessageDAO {
 		String sql = """
 			SELECT message_id, text, user_id, message_room_id, created
 			FROM messages
-			LIMIT 50
 			""";
 		
 		RowMapper<Message> mapper = new MessageRowMapper(appUserDAO, messageRoomDAO);
@@ -63,7 +62,6 @@ public class MessageDAOImpl implements MessageDAO {
 			SELECT message_id, text, user_id, message_room_id, created
 			FROM messages
 			WHERE message_room_id = ?
-			LIMIT 50
 			""";
 		
 		RowMapper<Message> mapper = new MessageRowMapper(appUserDAO, messageRoomDAO);
@@ -91,6 +89,15 @@ public class MessageDAOImpl implements MessageDAO {
 		String sql = """
 			DELETE FROM messages
 			WHERE message_id = ?
+			""";
+		
+		jdbcTemplate.update(sql, id);
+	}
+	
+	public void deleteAllByMessageRoomId(int id) {
+		String sql = """
+			DELETE FROM messages
+			WHERE message_room_id = ?
 			""";
 		
 		jdbcTemplate.update(sql, id);
