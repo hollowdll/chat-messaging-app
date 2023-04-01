@@ -31,6 +31,20 @@ public class MessageRoomController {
 		this.messageDAO = messageDAO;
 		this.messageRoomDAO = messageRoomDAO;
 	}
+	
+	// Check if user is the owner of message room
+	private String checkMessageRoomOwner(MessageRoom fetchedMessageRoom, Authentication auth) {
+		// Get authenticated user
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		String username = authenticatedUser.getUsername();
+		
+		// Check if user is the owner of this message room
+		if (!username.equals(fetchedMessageRoom.getOwner().getUsername())) {
+			return "redirect:/messagerooms";
+		}
+		
+		return "ok";
+	}
 
 	// Message rooms page
 	@GetMapping("/messagerooms")
@@ -102,21 +116,18 @@ public class MessageRoomController {
 	@GetMapping("/editmessageroom/{id}")
 	public String editMessageRoomPage(@PathVariable("id") int messageRoomId, Authentication auth, Model model) {
 		// Check if message room exists
-		MessageRoom messageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
+		MessageRoom fetchedMessageRoom = messageRoomDAO.findById(messageRoomId).orElse(null);
 		
-		if (messageRoom == null) {
+		if (fetchedMessageRoom == null) {
 			return "error";
 		}
 		
-		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
-		String username = authenticatedUser.getUsername();
-		
-		// Check if user is the owner of this message room
-		if (!username.equals(messageRoom.getOwner().getUsername())) {
-			return "redirect:/messagerooms";
+		String result = checkMessageRoomOwner(fetchedMessageRoom, auth);
+		if (result != "ok") {
+			return result;
 		}
 		
-		model.addAttribute("messageRoom", messageRoom);
+		model.addAttribute("messageRoom", fetchedMessageRoom);
 		
 		return "editmessageroom";
 	}
@@ -149,12 +160,9 @@ public class MessageRoomController {
 			return "error";
 		}
 		
-		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
-		String username = authenticatedUser.getUsername();
-		
-		// Check if user is the owner of this message room
-		if (!username.equals(fetchedMessageRoom.getOwner().getUsername())) {
-			return "redirect:/messagerooms";
+		String result = checkMessageRoomOwner(fetchedMessageRoom, auth);
+		if (result != "ok") {
+			return result;
 		}
 		
 		messageRoomDAO.updateById(messageRoomId, messageRoom);
@@ -172,12 +180,9 @@ public class MessageRoomController {
 			return "error";
 		}
 		
-		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
-		String username = authenticatedUser.getUsername();
-		
-		// Check if user is the owner of this message room
-		if (!username.equals(fetchedMessageRoom.getOwner().getUsername())) {
-			return "redirect:/messagerooms";
+		String result = checkMessageRoomOwner(fetchedMessageRoom, auth);
+		if (result != "ok") {
+			return result;
 		}
 		
 		messageDAO.deleteAllByMessageRoomId(messageRoomId);
