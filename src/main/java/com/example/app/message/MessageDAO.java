@@ -7,6 +7,7 @@ import java.util.Optional;
 public interface MessageDAO {
 
 	public void save(Message message);
+	public void saveWithSenderId(Message message, int appUserId);
 	public List<Message> findAll();
 	public List<Message> findAllByMessageRoomId(int id);
 	public Optional<Message> findById(int id);

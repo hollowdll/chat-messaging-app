@@ -5,6 +5,10 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style>
+		.chat-content {
+			width: 50%;
+		}
+	
 		.chat-message {
 			background-color: rgb(230,230,230);
 		}
@@ -12,30 +16,41 @@
 		div {
 			margin-bottom: 10px;
 		}
+		
+		.send-message-form {
+			margin-bottom: 15px;
+		}
 	</style>
 </head>
 
 <body>
-	<form th:action="@{/logout}" method="post">
-		<input type="submit" value="Sign Out" />
-	</form>
+	<div class="top-content">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" />
+		</form>
+		
+		<nav>
+			<a href="/messagerooms">Back</a>
+		</nav>
 	
-	<nav>
-		<a href="/messagerooms">Back</a>
-	</nav>
-
-	<p>Signed in as <strong sec:authentication="name"></strong></p>
-	<h1 th:text="${messageRoomName}"></h1>
-	
-	<h3>Chat</h3>
-	
-	<div>
-		<input type="text" placeholder="Send a message" />
-		<button>Send</button>
+		<p>Signed in as <strong sec:authentication="name"></strong></p>
+		<h1 th:text="${messageRoomName}"></h1>
+		
+		<h3>Chat</h3>
+		
+		<div th:each="errorMessage : ${errorMessages}">
+			<p th:text="${errorMessage}"></p>
+		</div>
+		
+		<form th:object="${message}" th:action="@{/createmessage}" action="#" method="POST" class="send-message-form">
+			<input type="text" id="text" th:field="*{text}" placeholder="Send a message" />
+			<input type="hidden" th:field="*{messageRoom.messageRoomId}" />
+			<input type="submit" value="Send" />
+		</form>
 	</div>
 	
-	<div>
-		<div th:each="message : ${messages}" class="chat-message">
+	<div class="chat-content">
+		<div th:each="message : ${messageHistory}" class="chat-message">
 			<span th:text="${message.formatCreatedToFinnish}"></span><br>
 			<strong><span th:text="${message.getSender.getUsername}"></span>:</strong>
 			<span th:text="${message.getText}"></span><br>

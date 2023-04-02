@@ -45,6 +45,22 @@ public class MessageDAOImpl implements MessageDAO {
 		jdbcTemplate.update(sql, parameters);
 	}
 	
+	public void saveWithSenderId(Message message, int appUserId) {
+		String sql = """
+			INSERT INTO messages (text, user_id, message_room_id, created)
+			VALUES (?,?,?,?)
+			""";
+		
+		Object[] parameters = new Object[] {
+			message.getText(),
+			appUserId,
+			message.getMessageRoom().getMessageRoomId(),
+			message.getCreated()
+		};
+		
+		jdbcTemplate.update(sql, parameters);
+	}
+	
 	public List<Message> findAll() {
 		String sql = """
 			SELECT message_id, text, user_id, message_room_id, created

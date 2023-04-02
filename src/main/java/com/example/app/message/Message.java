@@ -9,15 +9,29 @@ import java.time.format.FormatStyle;
 import com.example.app.messageroom.MessageRoom;
 import com.example.app.user.AppUser;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class Message {
 
 	private int messageId;
+	
+	@Size(min=1, max=100, message = "Message must be between 1 and 100 characters")
 	private String text;
+	
 	private AppUser sender;
+	
 	private MessageRoom messageRoom;
+	
 	private LocalDateTime created;
 	
-	public Message() {}
+	public Message() {
+		messageId = 0;
+		text = "";
+		sender = null;
+		messageRoom = null;
+		created = null;
+	}
 	
 	public Message(String text, AppUser sender, MessageRoom messageRoom) {
 		messageId = 0;

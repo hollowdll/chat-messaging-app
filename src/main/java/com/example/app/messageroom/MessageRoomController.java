@@ -67,10 +67,15 @@ public class MessageRoomController {
 		}
 		
 		// Find message history
-		List<Message> messages = messageDAO.findAllByMessageRoomId(messageRoomId);
+		List<Message> messageHistory = messageDAO.findAllByMessageRoomId(messageRoomId);
+		
+		// set message model
+		Message message = new Message();
+		message.setMessageRoom(messageRoom);
 		
 		model.addAttribute("messageRoomName", messageRoom.getName());
-		model.addAttribute("messages", messages);
+		model.addAttribute("messageHistory", messageHistory);
+		model.addAttribute("message", message);
 		
 		return "chat";
 	}
