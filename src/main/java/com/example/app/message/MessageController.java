@@ -1,10 +1,16 @@
 package com.example.app.message;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +20,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.app.messageroom.MessageRoom;
+import com.example.app.messageroom.MessageRoomDAO;
 import com.example.app.user.AuthenticatedUser;
 
 import jakarta.validation.Valid;
@@ -22,10 +30,12 @@ import jakarta.validation.Valid;
 public class MessageController {
 	
 	private final MessageDAO messageDAO;
+	private final MessageRoomDAO messageRoomDAO;
 	
 	@Autowired
-	public MessageController(MessageDAO messageDAO) {
+	public MessageController(MessageDAO messageDAO, MessageRoomDAO messageRoomDAO) {
 		this.messageDAO = messageDAO;
+		this.messageRoomDAO = messageRoomDAO;
 	}
 	
 	// Create message by sending it
@@ -45,7 +55,7 @@ public class MessageController {
 			
 			model.addAttribute("errorMessages", errorMessages);
 			
-			return "chat";
+			return "chatrealtime";
 		}
 		
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
@@ -144,13 +154,42 @@ public class MessageController {
 		return "redirect:/messagerooms/" + fetchedMessage.getMessageRoom().getMessageRoomId();
 	}
 	
-	/*
+	
 	// WebSocket STOMP messages
 	// Receive input messages and
 	// send response message to all subscribed clients
-	public Message sendMessageInRealtime(Message message, Authentication auth) throws Exception {
+	@MessageMapping("/chat")
+	@SendTo("/topic/messages")
+	public OutputMessage sendMessageInRealtime(
+		@Valid InputMessage inputMessage,
+		Authentication auth
+	) throws Exception {
+		// If message room exists
+		MessageRoom messageRoom = messageRoomDAO.findById(inputMessage.getMessageRoomId()).orElse(null);
 		
+		if (messageRoom == null) {
+			throw new Exception("Message room not found");
+		}
+		
+		// Get authenticated user
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		String username = authenticatedUser.getUsername();
+		int appUserId = authenticatedUser.getUserId();
+		
+		// Get local time
+		LocalDateTime time = LocalDateTime.now();
+		ZonedDateTime zonedDateTime = ZonedDateTime.of(time, ZoneId.of("Europe/Helsinki"));
+		String formattedTime = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
+		
+		// Save message to database
+		Message message = new Message();
+		message.setText(inputMessage.getText());
+		message.setMessageRoom(messageRoom);
+		message.setCreated(time);
+		
+		messageDAO.saveWithSenderId(message, appUserId);
+		
+		return new OutputMessage(inputMessage.getText(), username, formattedTime);
 	}
-	*/
 	
 }

@@ -73,11 +73,12 @@ public class MessageRoomController {
 		Message message = new Message();
 		message.setMessageRoom(messageRoom);
 		
+		model.addAttribute("messageRoom", messageRoom);
 		model.addAttribute("messageRoomName", messageRoom.getName());
 		model.addAttribute("messageHistory", messageHistory);
 		model.addAttribute("message", message);
 		
-		return "chat";
+		return "chatrealtime";
 	}
 	
 	// Message room create page
