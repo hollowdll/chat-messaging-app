@@ -144,4 +144,13 @@ public class MessageController {
 		return "redirect:/messagerooms/" + fetchedMessage.getMessageRoom().getMessageRoomId();
 	}
 	
+	/*
+	// WebSocket STOMP messages
+	// Receive input messages and
+	// send response message to all subscribed clients
+	public Message sendMessageInRealtime(Message message, Authentication auth) throws Exception {
+		
+	}
+	*/
+	
 }
