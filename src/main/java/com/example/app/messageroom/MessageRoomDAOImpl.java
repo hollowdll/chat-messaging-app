@@ -56,6 +56,7 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 		String sql = """
 			SELECT message_room_id, name, user_id, created
 			FROM message_rooms
+			ORDER BY message_room_id ASC
 			""";
 		
 		RowMapper<MessageRoom> mapper = new MessageRoomRowMapper(appUserDAO);

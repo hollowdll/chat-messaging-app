@@ -65,6 +65,7 @@ public class MessageDAOImpl implements MessageDAO {
 		String sql = """
 			SELECT message_id, text, user_id, message_room_id, created
 			FROM messages
+			ORDER BY message_id ASC
 			""";
 		
 		RowMapper<Message> mapper = new MessageRowMapper(appUserDAO, messageRoomDAO);
@@ -78,6 +79,7 @@ public class MessageDAOImpl implements MessageDAO {
 			SELECT message_id, text, user_id, message_room_id, created
 			FROM messages
 			WHERE message_room_id = ?
+			ORDER BY message_id ASC
 			""";
 		
 		RowMapper<Message> mapper = new MessageRowMapper(appUserDAO, messageRoomDAO);
@@ -125,12 +127,8 @@ public class MessageDAOImpl implements MessageDAO {
 			SET text = ?
 			WHERE message_id = ?
 			""";
-		
-		Object[] parameters = new Object[] {
-			message.getText()
-		};
 			
-		jdbcTemplate.update(sql, parameters, id);
+		jdbcTemplate.update(sql, message.getText(), id);
 	}
 	
 }

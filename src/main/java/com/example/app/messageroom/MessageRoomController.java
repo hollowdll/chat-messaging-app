@@ -127,6 +127,7 @@ public class MessageRoomController {
 			return "error";
 		}
 		
+		// If user is allowed to edit
 		String result = checkMessageRoomOwner(fetchedMessageRoom, auth);
 		if (result != "ok") {
 			return result;

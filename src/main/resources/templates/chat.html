@@ -51,7 +51,13 @@
 	
 	<div class="chat-content">
 		<div th:each="message : ${messageHistory}" class="chat-message">
-			<span th:text="${message.formatCreatedToFinnish}"></span><br>
+			<span th:text="${message.formatCreatedToFinnish}"></span>
+			<span th:if="${#authentication.name == message.getSender.getUsername}">
+				<a th:href="@{/editmessage/{id}(id=${message.getMessageId})}">Edit</a>
+			</span>
+			<button th:if="${#authentication.name == message.getSender.getUsername}"
+				th:onmouseup="">Delete
+			</button><br>
 			<strong><span th:text="${message.getSender.getUsername}"></span>:</strong>
 			<span th:text="${message.getText}"></span><br>
 		</div>

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.app.messageroom.MessageRoom;
@@ -28,7 +29,8 @@ public class MessageController {
 	public MessageController(MessageDAO messageDAO) {
 		this.messageDAO = messageDAO;
 	}
-
+	
+	// Development only
 	@GetMapping("/messages")
 	public String showTestMessage(Model model) {
 		Message message = new Message(
@@ -41,6 +43,7 @@ public class MessageController {
 		return "messagelist";
 	}
 	
+	// Create message by sending it
 	@PostMapping("/createmessage")
 	public String createMessage(
 		@Valid @ModelAttribute Message message,
@@ -59,8 +62,6 @@ public class MessageController {
 			
 			return "chat";
 		}
-		System.out.println(message.getText());
-		System.out.println(message.getMessageRoom().getMessageRoomId());
 		
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
 		int appUserId = authenticatedUser.getUserId();
@@ -69,6 +70,70 @@ public class MessageController {
 		messageDAO.saveWithSenderId(message, appUserId);
 		
 		return "redirect:/messagerooms/" + message.getMessageRoom().getMessageRoomId();
+	}
+	
+	// Message edit page
+	@GetMapping("/editmessage/{id}")
+	public String editMessagePage(@PathVariable("id") int messageId, Authentication auth, Model model) {
+		Message fetchedMessage = messageDAO.findById(messageId).orElse(null);
+		
+		if (fetchedMessage == null) {
+			return "error";
+		}
+		
+		// Get authenticated user
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		String username = authenticatedUser.getUsername();
+		
+		// If user is the sender of this message
+		if (!username.equals(fetchedMessage.getSender().getUsername())) {
+			return "redirect:/messagerooms/" + messageId;
+		}
+		
+		model.addAttribute("message", fetchedMessage);
+		
+		return "editmessage";
+	}
+	
+	// Message edit submit
+	@PostMapping("/editmessage/{id}")
+	public String editMessageSubmit(
+		@PathVariable("id") int messageId,
+		@Valid @ModelAttribute Message message,
+		BindingResult bindingResult,
+		Authentication auth,
+		Model model
+	) {
+		if (bindingResult.hasErrors()) {
+			// Show validation error messages
+			List<String> errorMessages = new ArrayList<String>();
+			bindingResult.getAllErrors().forEach((error) -> {
+				errorMessages.add(error.getDefaultMessage());
+			});
+			
+			model.addAttribute("errorMessages", errorMessages);
+			
+			return "editmessage";
+		}
+		
+		Message fetchedMessage = messageDAO.findById(messageId).orElse(null);
+		
+		if (fetchedMessage == null) {
+			return "error";
+		}
+		
+		// Get authenticated user
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		String username = authenticatedUser.getUsername();
+		
+		// If user is the sender of this message
+		if (!username.equals(fetchedMessage.getSender().getUsername())) {
+			return "redirect:/messagerooms/" + messageId;
+		}
+		
+		messageDAO.updateById(messageId, message);
+		
+		return "redirect:/messagerooms/" + messageId;
 	}
 	
 }
