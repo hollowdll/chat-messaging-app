@@ -9,7 +9,6 @@ import java.time.format.FormatStyle;
 import com.example.app.messageroom.MessageRoom;
 import com.example.app.user.AppUser;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class Message {

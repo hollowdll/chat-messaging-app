@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.app.messageroom.MessageRoom;
-import com.example.app.user.AppUser;
 import com.example.app.user.AuthenticatedUser;
 
 import jakarta.validation.Valid;
@@ -28,19 +26,6 @@ public class MessageController {
 	@Autowired
 	public MessageController(MessageDAO messageDAO) {
 		this.messageDAO = messageDAO;
-	}
-	
-	// Development only
-	@GetMapping("/messages")
-	public String showTestMessage(Model model) {
-		Message message = new Message(
-			"Test message 123",
-			new AppUser(),
-			new MessageRoom()
-		);
-		
-		model.addAttribute("message", message);
-		return "messagelist";
 	}
 	
 	// Create message by sending it
@@ -87,7 +72,7 @@ public class MessageController {
 		
 		// If user is the sender of this message
 		if (!username.equals(fetchedMessage.getSender().getUsername())) {
-			return "redirect:/messagerooms/" + messageId;
+			return "redirect:/messagerooms/" + fetchedMessage.getMessageRoom().getMessageRoomId();
 		}
 		
 		model.addAttribute("message", fetchedMessage);
@@ -128,12 +113,35 @@ public class MessageController {
 		
 		// If user is the sender of this message
 		if (!username.equals(fetchedMessage.getSender().getUsername())) {
-			return "redirect:/messagerooms/" + messageId;
+			return "redirect:/messagerooms/" + fetchedMessage.getMessageRoom().getMessageRoomId();
 		}
 		
 		messageDAO.updateById(messageId, message);
 		
-		return "redirect:/messagerooms/" + messageId;
+		return "redirect:/messagerooms/" + fetchedMessage.getMessageRoom().getMessageRoomId();
+	}
+	
+	// Delete message
+	@GetMapping("/deletemessage/{id}")
+	public String deleteMessage(@PathVariable("id") int messageId, Authentication auth) {
+		Message fetchedMessage = messageDAO.findById(messageId).orElse(null);
+		
+		if (fetchedMessage == null) {
+			return "error";
+		}
+		
+		// Get authenticated user
+		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
+		String username = authenticatedUser.getUsername();
+		
+		// If user is the sender of this message
+		if (!username.equals(fetchedMessage.getSender().getUsername())) {
+			return "redirect:/messagerooms/" + fetchedMessage.getMessageRoom().getMessageRoomId();
+		}
+		
+		messageDAO.deleteById(messageId);
+		
+		return "redirect:/messagerooms/" + fetchedMessage.getMessageRoom().getMessageRoomId();
 	}
 	
 }
