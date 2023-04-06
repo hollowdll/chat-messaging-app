@@ -1,5 +1,6 @@
 package com.example.app.user;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -12,13 +13,17 @@ public class UserController {
 	}
 	
 	@GetMapping("/login")
-	public String loginPage() {
+	public String loginPage(Authentication auth) {
+		if (auth.getPrincipal() != null) {
+			System.out.println(auth.getPrincipal());
+			return "redirect:/messagerooms";
+		}
 		return "login";
 	}
 	
-	@GetMapping("/testuser")
-	public String continueWithTestUser() {
-		return "redirect:/messagerooms";
+	@GetMapping("/signup")
+	public String signupPage() {
+		return "signup";
 	}
 	
 }

@@ -176,7 +176,7 @@ public class MessageController {
 		String username = authenticatedUser.getUsername();
 		int appUserId = authenticatedUser.getUserId();
 		
-		// Get local time
+		// Get Finland time zone
 		LocalDateTime time = LocalDateTime.now();
 		ZonedDateTime zonedDateTime = ZonedDateTime.of(time, ZoneId.of("Europe/Helsinki"));
 		String formattedTime = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);

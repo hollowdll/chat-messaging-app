@@ -91,8 +91,8 @@ public class Message {
 		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
 	}
 	
-	// Format to Finnish time zone
-	public String formatCreatedToFinnish() {
+	// Format to Finland time zone
+	public String formatCreatedToFinland() {
 		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("Europe/Helsinki"));
 		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
 	}

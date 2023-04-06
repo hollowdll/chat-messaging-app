@@ -1,6 +1,10 @@
 package com.example.app.messageroom;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import com.example.app.user.AppUser;
 
@@ -63,6 +67,12 @@ public class MessageRoom {
 
 	public void setCreated(LocalDateTime created) {
 		this.created = created;
+	}
+	
+	// Format to Finland time zone
+	public String formatCreatedToFinland() {
+		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("Europe/Helsinki"));
+		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
 	}
 
 	@Override
