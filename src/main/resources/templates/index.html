@@ -3,23 +3,28 @@
 <head>
 	<title>Chat App</title>
 	<meta charset="UTF-8">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- Load Bootstrap CSS -->
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+		crossorigin="anonymous">
 </head>
 <body>
-	<h1>Chat App</h1>
+	<div class="container">
+		<h1 class="text-center m-4">Chat App</h1>
+		
+		<h4 class="text-center">Create and join chat rooms to send messages and talk with other people.</h4>
 	
-	<p>Create and join chat rooms to send messages and talk with other people.</p>
-
-	<nav>
 		<div>
-			<a href="/login">Sign In</a>			
+			<div class="text-center m-3">
+				<a href="/login" class="btn btn-primary m-2">Sign In</a>			
+				<a href="/signup" class="btn btn-primary m-2">Create a new user</a>
+			</div>
+			<div class="text-center">
+				<a href="/messagerooms" class="btn btn-secondary">Go to chat rooms</a>
+			</div>
 		</div>
-		<div>
-			<a href="/signup">Create a new user</a>
-		</div>
-		<div>
-			<a href="/messagerooms">Go to chat rooms</a>
-		</div>
-	</nav>
+	</div>
 </body>
 </html>
