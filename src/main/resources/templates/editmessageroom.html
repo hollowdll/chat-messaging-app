@@ -21,7 +21,8 @@
 	<div>
 		<form th:object="${messageRoom}" th:action="@{/editmessageroom/{id}(id=${id})}" action="#" method="POST">
 			<div>
-				<input type="text" id="name" placeholder="Name" th:field="*{name}">
+				<label for="name">Name</label><br>
+				<input type="text" id="name" th:field="*{name}">
 			</div>
 
 			<input type="submit" value="Save"></input>
