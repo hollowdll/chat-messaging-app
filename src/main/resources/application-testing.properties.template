@@ -1,0 +1,13 @@
+## This configuration is for JUnit tests. Don't use this in production.
+## Copy this file to the same location and remove '.template' from its name
+## Change database configurations to your configurations
+## Set system environment variable SPRING_PROFILES_ACTIVE=testing to your JUnit tests to load these configurations
+
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.sql.init.mode=always
+spring.jpa.hibernate.ddl-auto=none
+server.error.whitelabel.enabled=false
+
+spring.datasource.url=YOUR_DATABASE_URL
+spring.datasource.username=YOUR_DATABASE_USERNAME
+spring.datasource.password=YOUR_DATABASE_PASSWORD

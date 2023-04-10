@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.app.messageroom.MessageRoom;
 import com.example.app.messageroom.MessageRoomDAO;
@@ -154,14 +155,13 @@ public class MessageController {
 		return "redirect:/messagerooms/" + fetchedMessage.getMessageRoom().getMessageRoomId();
 	}
 	
-	
 	// WebSocket STOMP messages
 	// Receive input messages and
 	// send response message to all subscribed clients
 	@MessageMapping("/chat")
 	@SendTo("/topic/messages")
 	public OutputMessage sendMessageInRealtime(
-		@Valid InputMessage inputMessage,
+		@Valid @RequestBody InputMessage inputMessage,
 		Authentication auth
 	) throws Exception {
 		// If message room exists
