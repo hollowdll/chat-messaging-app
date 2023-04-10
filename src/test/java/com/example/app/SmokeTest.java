@@ -36,22 +36,22 @@ public class SmokeTest {
 	}
 	
 	@Test
-	public void userControllerLoads() {
+	public void userControllerLoads() throws Exception {
 		assertThat(userController).isNotNull();
 	}
 	
 	@Test
-	public void messageRoomControllerLoads() {
+	public void messageRoomControllerLoads() throws Exception {
 		assertThat(messageRoomController).isNotNull();
 	}
 	
 	@Test
-	public void messageControllerLoads() {
+	public void messageControllerLoads() throws Exception {
 		assertThat(messageController).isNotNull();
 	}
 	
 	@Test
-	public void userDetailsServiceLoads() {
+	public void userDetailsServiceLoads() throws Exception {
 		assertThat(userDetailsService).isNotNull();
 	}
 	
