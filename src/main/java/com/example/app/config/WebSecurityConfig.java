@@ -22,6 +22,7 @@ public class WebSecurityConfig {
 		this.userDetailsService = userDetailsService;
 	}
 	
+	// Configure web security and secured endpoints
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -42,6 +43,7 @@ public class WebSecurityConfig {
 		return http.build();
 	}
 	
+	// Configure BCrypt for user authentication
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth

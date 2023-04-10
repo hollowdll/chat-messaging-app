@@ -20,6 +20,7 @@ public class WebLayerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
+	// If root "/" endpoint successfully returns view
 	@Test
 	public void rootResponseIsOk() throws Exception {
 		this.mockMvc
