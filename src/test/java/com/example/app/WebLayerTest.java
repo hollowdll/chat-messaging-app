@@ -17,16 +17,43 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class WebLayerTest {
-	@Autowired
-	private MockMvc mockMvc;
 	
-	// If root "/" endpoint successfully returns view
+	private final MockMvc mockMvc;
+	private final String RESPONSE_CONTENT_TYPE = "text/html;charset=UTF-8";
+	
+	@Autowired
+	public WebLayerTest(MockMvc mockMvc) {
+		this.mockMvc = mockMvc;
+	}
+	
+	// root "/" GET request
 	@Test
-	public void rootResponseIsOk() throws Exception {
+	public void rootShouldReturnView() throws Exception {
 		this.mockMvc
 			.perform(get("/"))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().contentType("text/html;charset=UTF-8"));
+			.andExpect(content().contentType(RESPONSE_CONTENT_TYPE));
 	}
+	
+	// login GET request
+	@Test
+	public void loginShouldReturnView() throws Exception {
+		this.mockMvc
+			.perform(get("/login"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(RESPONSE_CONTENT_TYPE));
+	}
+	
+	// signup GET request
+	@Test
+	public void signupShouldReturnView() throws Exception {
+		this.mockMvc
+			.perform(get("/signup"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(RESPONSE_CONTENT_TYPE));
+	}
+	
 }
