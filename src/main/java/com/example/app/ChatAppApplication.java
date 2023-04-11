@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -33,7 +34,7 @@ public class ChatAppApplication {
 	
 	@Bean
 	@Order(1)
-	public CommandLineRunner createAndSaveTestEntities(
+	public CommandLineRunner createTestUsers(
 		AppUserDAO appUserDAO,
 		MessageRoomDAO messageRoomDAO,
 		MessageDAO messageDAO
@@ -59,36 +60,18 @@ public class ChatAppApplication {
 			AppUser appUser2 = new AppUser(username2, hashedPassword2);
 			appUser2.setAppUserId(2);
 			
-			log.info("Creating test message room...");
-			MessageRoom messageRoom = new MessageRoom("Test message room", appUser);
-			messageRoom.setMessageRoomId(1);
-			
-			log.info("Creating test message...");
-			Message message = new Message("Test message 1", appUser, messageRoom);
-			message.setMessageId(1);
-			
-			Message message2 = new Message("Test message 2", appUser2, messageRoom);
-			message.setMessageId(2);
-			
 			// Save test data
 			
 			System.out.println();
 			log.info("Saving test user to database...");
 			appUserDAO.save(appUser);
 			appUserDAO.save(appUser2);
-			
-			log.info("Saving test message room to database...");
-			messageRoomDAO.save(messageRoom);
-			
-			log.info("Savinf test message to database...");
-			messageDAO.save(message);
-			messageDAO.save(message2);
 		};
 	}
 	
 	@Bean
 	@Order(2)
-	public CommandLineRunner fetchTestUser(AppUserDAO appUserDAO) {
+	public CommandLineRunner fetchTestUsers(AppUserDAO appUserDAO) {
 		return (args) -> {
 			System.out.println();
 			log.info("Fetching all users from database...");
@@ -110,25 +93,41 @@ public class ChatAppApplication {
 		};
 	}
 	
+	// This is used only in tests. It saves data to test database that tests can use.
+	// set environment variable 'SPRING_PROFILES_ACTIVE=testing' to execute this
 	@Bean
 	@Order(3)
-	public CommandLineRunner fetchTestMessageRoom(MessageRoomDAO messageRoomDAO) {
+	@Profile("testing")
+	public CommandLineRunner initDataForTests(
+		AppUserDAO appUserDAO,
+		MessageRoomDAO messageRoomDAO,
+		MessageDAO messageDAO
+	) {
 		return (args) -> {
-			System.out.println();
-			log.info("Fetching test message room from database");
+			log.info("Creating test user...");
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+			String username = "UserForTesting1";
+			String password = "UserForTesting1";
+			String hashedPassword = passwordEncoder.encode(password);
+			AppUser appUser = new AppUser(username, hashedPassword);
+			appUser.setAppUserId(3);
 			
-			System.out.println(messageRoomDAO.findById(1).get());
-		};
-	}
-	
-	@Bean
-	@Order(4)
-	public CommandLineRunner fetchTestMessage(MessageDAO messageDAO) {
-		return (args) -> {
-			System.out.println();
-			log.info("Fetching test message from database...");
+			log.info("Creating test message room...");
+			MessageRoom messageRoom = new MessageRoom("Test message room 1", appUser);
+			messageRoom.setMessageRoomId(1);
 			
-			System.out.println(messageDAO.findById(1).get());
+			log.info("Creating test message...");
+			Message message = new Message("Test message 1", appUser, messageRoom);
+			message.setMessageId(1);
+			
+			log.info("Saving test user to database...");
+			appUserDAO.save(appUser);
+			
+			log.info("Saving test message room to database...");
+			messageRoomDAO.save(messageRoom);
+			
+			log.info("Saving test message to database...");
+			messageDAO.save(message);
 		};
 	}
 	

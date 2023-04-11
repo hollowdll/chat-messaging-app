@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.example.app.user.AppUser;
 import com.example.app.user.AppUserDAO;
 
+// Test data for this test class is created in ChatAppApplication.java
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class AppUserDAOTest {
@@ -29,9 +30,9 @@ public class AppUserDAOTest {
 	@Test
 	public void createUser() throws Exception {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-		String password = "UserForTesting";
+		String username = "UserForTesting2";
+		String password = "UserForTesting2";
 		String hashedPassword = passwordEncoder.encode(password);
-		String username = "UserForTesting";
 		
 		AppUser appUser = new AppUser(username, hashedPassword);
 		appUserDAO.save(appUser);
@@ -44,7 +45,7 @@ public class AppUserDAOTest {
 	
 	@Test
 	public void findUserByUsername() throws Exception {
-		String expectedUsername = "Testuser1";
+		String expectedUsername = "UserForTesting1";
 		Optional<AppUser> appUser = appUserDAO.findByUsername(expectedUsername);
 		
 		assertThat(appUser).isPresent();
@@ -53,7 +54,7 @@ public class AppUserDAOTest {
 	
 	@Test
 	public void findUserById() throws Exception {
-		int expectedId = 1;
+		int expectedId = appUserDAO.findByUsername("UserForTesting1").orElseThrow().getAppUserId();
 		Optional<AppUser> appUser = appUserDAO.findById(expectedId);
 		
 		assertThat(appUser).isPresent();
