@@ -2,12 +2,14 @@ package com.example.app;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.example.app.user.AppUser;
@@ -25,37 +27,45 @@ public class AppUserDAOTest {
 	}
 	
 	@Test
+	public void createUser() throws Exception {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+		String password = "UserForTesting";
+		String hashedPassword = passwordEncoder.encode(password);
+		String username = "UserForTesting";
+		
+		AppUser appUser = new AppUser(username, hashedPassword);
+		appUserDAO.save(appUser);
+		Optional<AppUser> expectedAppUser = appUserDAO.findByUsername(username);
+		
+		assertThat(expectedAppUser).isPresent();
+		assertThat(expectedAppUser.orElseThrow().getUsername()).isEqualTo(username);
+		assertThat(expectedAppUser.orElseThrow().getHashedPassword()).isEqualTo(hashedPassword);
+	}
+	
+	@Test
 	public void findUserByUsername() throws Exception {
-		String username = "Testuser1";
-		Optional<AppUser> appUser = appUserDAO.findByUsername(username);
+		String expectedUsername = "Testuser1";
+		Optional<AppUser> appUser = appUserDAO.findByUsername(expectedUsername);
 		
 		assertThat(appUser).isPresent();
-		assertThat(appUser.orElseThrow().getUsername()).isEqualTo(username);
+		assertThat(appUser.orElseThrow().getUsername()).isEqualTo(expectedUsername);
 	}
 	
 	@Test
 	public void findUserById() throws Exception {
+		int expectedId = 1;
+		Optional<AppUser> appUser = appUserDAO.findById(expectedId);
 		
+		assertThat(appUser).isPresent();
+		assertThat(appUser.orElseThrow().getAppUserId()).isEqualTo(expectedId);
 	}
 	
 	@Test
 	public void findAllUsers() throws Exception {
+		List<AppUser> appUsers = appUserDAO.findAll();
 		
-	}
-	
-	@Test
-	public void createUser() throws Exception {
-		
-	}
-	
-	@Test
-	public void deleteUser() throws Exception {
-		
-	}
-	
-	@Test
-	public void updateUser() throws Exception {
-		
+		assertThat(appUsers).isInstanceOf(List.class);
+		assertThat(appUsers).isNotEmpty();
 	}
 	
 }
