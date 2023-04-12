@@ -45,20 +45,20 @@ public class AppUserDAOTest {
 	
 	@Test
 	public void findUserByUsername() throws Exception {
-		String expectedUsername = "UserForTesting1";
-		Optional<AppUser> appUser = appUserDAO.findByUsername(expectedUsername);
+		String username = "UserForTesting1";
+		Optional<AppUser> appUser = appUserDAO.findByUsername(username);
 		
 		assertThat(appUser).isPresent();
-		assertThat(appUser.orElseThrow().getUsername()).isEqualTo(expectedUsername);
+		assertThat(appUser.orElseThrow().getUsername()).isEqualTo(username);
 	}
 	
 	@Test
 	public void findUserById() throws Exception {
-		int expectedId = appUserDAO.findByUsername("UserForTesting1").orElseThrow().getAppUserId();
-		Optional<AppUser> appUser = appUserDAO.findById(expectedId);
+		int id = 3;
+		Optional<AppUser> appUser = appUserDAO.findById(id);
 		
 		assertThat(appUser).isPresent();
-		assertThat(appUser.orElseThrow().getAppUserId()).isEqualTo(expectedId);
+		assertThat(appUser.orElseThrow().getAppUserId()).isEqualTo(id);
 	}
 	
 	@Test
