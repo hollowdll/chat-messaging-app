@@ -42,6 +42,7 @@ function showMessageOutput(messageOutput) {
 	senderText.innerText = messageOutput.sender + ": ";
 	let messageText = document.createElement("span");
 	messageText.innerText = messageOutput.text;
+	messageText.className = "text-break";
 	
 	messageDiv.appendChild(timeText);
 	messageDiv.appendChild(document.createElement("br"));

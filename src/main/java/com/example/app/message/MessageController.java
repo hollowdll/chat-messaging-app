@@ -100,6 +100,12 @@ public class MessageController {
 		Authentication auth,
 		Model model
 	) {
+		Message fetchedMessage = messageDAO.findById(messageId).orElse(null);
+		
+		if (fetchedMessage == null) {
+			return "error";
+		}
+		
 		if (bindingResult.hasErrors()) {
 			// Show validation error messages
 			List<String> errorMessages = new ArrayList<String>();
@@ -108,14 +114,9 @@ public class MessageController {
 			});
 			
 			model.addAttribute("errorMessages", errorMessages);
+			model.addAttribute("message", fetchedMessage);
 			
 			return "editmessage";
-		}
-		
-		Message fetchedMessage = messageDAO.findById(messageId).orElse(null);
-		
-		if (fetchedMessage == null) {
-			return "error";
 		}
 		
 		// Get authenticated user

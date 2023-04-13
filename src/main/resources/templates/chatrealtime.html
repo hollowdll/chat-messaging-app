@@ -18,7 +18,7 @@
 
 <style>
 		.chat-content {
-			width: 50%;
+			width: 100%;
 		}
 	
 		.chat-message {
@@ -82,7 +82,7 @@
 				>Delete
 			</button><br>
 			<strong><span th:text="${message.getSender.getUsername}"></span>:</strong>
-			<span th:text="${message.getText}"></span><br>
+			<span th:text="${message.getText}" class="text-break"></span><br>
 		</div>
 	</div>
 </div>
