@@ -29,7 +29,7 @@ public class ChatAppApplication {
 	}
 	
 	// CommandLineRunners will run at application startup.
-	// They create and save test data into the database
+	// They create and save test data to the database
 	// They are mainly used for testing.
 	
 	@Bean
@@ -116,9 +116,11 @@ public class ChatAppApplication {
 			MessageRoom messageRoom = new MessageRoom("Test message room 1", appUser);
 			messageRoom.setMessageRoomId(1);
 			
-			log.info("Creating test message...");
+			log.info("Creating test messages...");
 			Message message = new Message("Test message 1", appUser, messageRoom);
 			message.setMessageId(1);
+			Message messageToDelete = new Message("This message will get deleted", appUser, messageRoom);
+			messageToDelete.setMessageId(2);
 			
 			log.info("Saving test user to database...");
 			appUserDAO.save(appUser);
@@ -126,8 +128,9 @@ public class ChatAppApplication {
 			log.info("Saving test message room to database...");
 			messageRoomDAO.save(messageRoom);
 			
-			log.info("Saving test message to database...");
+			log.info("Saving test messages to database...");
 			messageDAO.save(message);
+			messageDAO.save(messageToDelete);
 		};
 	}
 	
