@@ -1,11 +1,10 @@
 package com.example.app;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +27,20 @@ public class MessageDAOTest {
 	private final MessageRoomDAO messageRoomDAO;
 	private final AppUserDAO appUserDAO;
 	
-	@BeforeEach
-	public void setup() {
-		
-	}
-	
 	@Autowired
 	public MessageDAOTest(MessageDAO messageDAO, MessageRoomDAO messageRoomDAO, AppUserDAO appUserDAO) {
 		this.messageDAO = messageDAO;
 		this.messageRoomDAO = messageRoomDAO;
 		this.appUserDAO = appUserDAO;
+	}
+	
+	@Test
+	public void findMessageById() throws Exception {
+		int id = 1;
+		Optional<Message> message = messageDAO.findById(id);
+		
+		assertThat(message).isPresent();
+		assertThat(message.orElseThrow().getMessageId()).isEqualTo(id);
 	}
 	
 	@Test
@@ -58,31 +61,48 @@ public class MessageDAOTest {
 	
 	@Test
 	public void createMessage() throws Exception {
-		int messageCount = messageDAO.findAll().size();
 		AppUser sender = appUserDAO.findByUsername("UserForTesting1").orElseThrow();
 		MessageRoom messageRoom = messageRoomDAO.findById(1).orElseThrow();
 		Message message = new Message("Test message created by test", sender, messageRoom);
-		messageDAO.save(message);
+		int id = messageDAO.save(message);
 		
-		assertTrue(messageDAO.findAll().size() > messageCount);
+		assertThat(messageDAO.findById(id)).isPresent();
 	}
 	
 	@Test
 	public void createMessageWithSenderId() throws Exception {
-		int messageCount = messageDAO.findAll().size();
 		AppUser sender = appUserDAO.findByUsername("UserForTesting1").orElseThrow();
 		MessageRoom messageRoom = messageRoomDAO.findById(1).orElseThrow();
 		Message message = new Message("Test message created by test", sender, messageRoom);
-		messageDAO.saveWithSenderId(message, sender.getAppUserId());
+		int id = messageDAO.saveWithSenderId(message, sender.getAppUserId());
 		
-		assertTrue(messageDAO.findAll().size() > messageCount);
+		assertThat(messageDAO.findById(id)).isPresent();
 	}
 	
 	@Test
 	public void deleteMessage() throws Exception {
-		messageDAO.deleteById(2);
+		AppUser sender = appUserDAO.findByUsername("UserForTesting1").orElseThrow();
+		MessageRoom messageRoom = messageRoomDAO.findById(1).orElseThrow();
+		Message message = new Message("Test message created by test", sender, messageRoom);
 		
-		assertThat(messageDAO.findById(2)).isEmpty();
+		int id = messageDAO.save(message);
+		assertThat(messageDAO.findById(id)).isPresent();
+		
+		messageDAO.deleteById(id);
+		assertThat(messageDAO.findById(id)).isEmpty();
+	}
+	
+	@Test
+	public void deleteAllMessagesByMessageRoomId() throws Exception {
+		AppUser sender = appUserDAO.findByUsername("UserForTesting1").orElseThrow();
+		MessageRoom messageRoom = messageRoomDAO.findById(2).orElseThrow();
+		Message message = new Message("This message will get deleted", sender, messageRoom);
+		
+		int id = messageDAO.save(message);
+		assertThat(messageDAO.findById(id)).isPresent();
+		
+		messageDAO.deleteAllByMessageRoomId(2);
+		assertThat(messageDAO.findAllByMessageRoomId(2)).isEmpty();
 	}
 	
 	@Test

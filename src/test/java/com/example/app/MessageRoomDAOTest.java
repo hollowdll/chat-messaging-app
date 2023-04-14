@@ -69,6 +69,7 @@ public class MessageRoomDAOTest {
 	public void deleteMessageRoom() throws Exception {
 		AppUser owner = appUserDAO.findByUsername("UserForTesting1").orElseThrow();
 		MessageRoom messageRoom = new MessageRoom("Message room for test 3", owner);
+		
 		int id = messageRoomDAO.save(messageRoom);
 		assertThat(messageRoomDAO.findById(id)).isPresent();
 		

@@ -102,7 +102,9 @@ public class ChatAppApplication {
 		MessageDAO messageDAO
 	) {
 		return (args) -> {
+			System.out.println();
 			log.info("Creating test user...");
+			
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 			String username = "UserForTesting1";
 			String password = "UserForTesting1";
@@ -110,25 +112,25 @@ public class ChatAppApplication {
 			AppUser appUser = new AppUser(username, hashedPassword);
 			appUser.setAppUserId(3);
 			
-			log.info("Creating test message room...");
-			MessageRoom messageRoom = new MessageRoom("Test message room 1", appUser);
-			messageRoom.setMessageRoomId(1);
+			log.info("Creating test message rooms...");
+			MessageRoom messageRoom1 = new MessageRoom("Test message room 1", appUser);
+			messageRoom1.setMessageRoomId(1);
+			MessageRoom messageRoom2 = new MessageRoom("Test message room 2", appUser);
+			messageRoom2.setMessageRoomId(2);
 			
-			log.info("Creating test messages...");
-			Message message = new Message("Test message 1", appUser, messageRoom);
+			log.info("Creating test message...");
+			Message message = new Message("Test message 1", appUser, messageRoom1);
 			message.setMessageId(1);
-			Message messageToDelete = new Message("This message will get deleted", appUser, messageRoom);
-			messageToDelete.setMessageId(2);
 			
 			log.info("Saving test user to database...");
 			appUserDAO.save(appUser);
 			
-			log.info("Saving test message room to database...");
-			messageRoomDAO.save(messageRoom);
+			log.info("Saving test message room2 to database...");
+			messageRoomDAO.save(messageRoom1);
+			messageRoomDAO.save(messageRoom2);
 			
-			log.info("Saving test messages to database...");
+			log.info("Saving test message to database...");
 			messageDAO.save(message);
-			messageDAO.save(messageToDelete);
 		};
 	}
 	
