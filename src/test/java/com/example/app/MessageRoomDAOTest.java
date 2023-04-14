@@ -51,31 +51,29 @@ public class MessageRoomDAOTest {
 	public void createMessageRoom() throws Exception {
 		AppUser owner = appUserDAO.findByUsername("UserForTesting1").orElseThrow();
 		MessageRoom messageRoom = new MessageRoom("Message room for test 1", owner);
-		messageRoom.setMessageRoomId(2);
-		messageRoomDAO.save(messageRoom);
+		int id = messageRoomDAO.save(messageRoom);
 		
-		assertThat(messageRoomDAO.findById(messageRoom.getMessageRoomId())).isPresent();
+		assertThat(messageRoomDAO.findById(id)).isPresent();
 	}
 	
 	@Test
 	public void createMessageRoomWithOwnerId() throws Exception {
 		AppUser owner = appUserDAO.findByUsername("UserForTesting1").orElseThrow();
 		MessageRoom messageRoom = new MessageRoom("Message room for test 2", owner);
-		messageRoom.setMessageRoomId(3);
-		messageRoomDAO.saveWithOwnerId(messageRoom, owner.getAppUserId());
+		int id = messageRoomDAO.saveWithOwnerId(messageRoom, owner.getAppUserId());
 		
-		assertThat(messageRoomDAO.findById(messageRoom.getMessageRoomId())).isPresent();
+		assertThat(messageRoomDAO.findById(id)).isPresent();
 	}
 	
 	@Test
 	public void deleteMessageRoom() throws Exception {
 		AppUser owner = appUserDAO.findByUsername("UserForTesting1").orElseThrow();
 		MessageRoom messageRoom = new MessageRoom("Message room for test 3", owner);
-		messageRoom.setMessageRoomId(4);
-		messageRoomDAO.save(messageRoom);
-		messageRoomDAO.deleteById(4);
+		int id = messageRoomDAO.save(messageRoom);
+		assertThat(messageRoomDAO.findById(id)).isPresent();
 		
-		assertThat(messageRoomDAO.findById(4)).isEmpty();
+		messageRoomDAO.deleteById(id);
+		assertThat(messageRoomDAO.findById(id)).isEmpty();
 	}
 	
 	@Test
