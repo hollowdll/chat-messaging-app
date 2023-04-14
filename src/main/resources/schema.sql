@@ -1,8 +1,9 @@
-/* Create test database schema */
-/* Make sure to create database first in DBMS */
+/* Creates database schema */
+/* Make sure to create database first */
 /* Delete tables on program startup */
 /* Deletion order matters to prevent errors */
 
+/* Remove these if you don't want to delete existing tables */
 DROP TABLE IF EXISTS public.message_room_members;
 DROP TABLE IF EXISTS public.messages;
 DROP TABLE IF EXISTS public.message_rooms;
