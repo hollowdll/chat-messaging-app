@@ -6,8 +6,8 @@ import java.util.Optional;
 // Database operations for message rooms
 public interface MessageRoomDAO {
 
-	public void save(MessageRoom messageRoom);
-	public void saveWithOwnerId(MessageRoom messageRoom, int appUserId);
+	public int save(MessageRoom messageRoom);
+	public int saveWithOwnerId(MessageRoom messageRoom, int appUserId);
 	public List<MessageRoom> findAll();
 	public Optional<MessageRoom> findById(int id);
 	public void deleteById(int id);

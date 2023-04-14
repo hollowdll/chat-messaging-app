@@ -1,12 +1,18 @@
 package com.example.app.messageroom;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.app.user.AppUserDAO;
 
@@ -15,43 +21,38 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 
 	private final JdbcTemplate jdbcTemplate;
 	private final AppUserDAO appUserDAO;
+	private final SimpleJdbcInsert simpleJdbcInsert;
 	
 	@Autowired
-	public MessageRoomDAOImpl(JdbcTemplate jdbcTemplate, AppUserDAO appUserDAO) {
+	public MessageRoomDAOImpl(JdbcTemplate jdbcTemplate, AppUserDAO appUserDAO, DataSource dataSource) {
 		this.jdbcTemplate = jdbcTemplate;
 		this.appUserDAO = appUserDAO;
+		simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+			.withTableName("message_rooms")
+			.usingGeneratedKeyColumns("message_room_id");
 	}
 	
-	public void save(MessageRoom messageRoom) {
-		String sql = """
-			INSERT INTO message_rooms (name, user_id, created)
-			VALUES (?,?,?)
-			""";
+	@Transactional
+	public int save(MessageRoom messageRoom) {
+		Map<String, Object> parameters = new HashMap<>(3);
+		parameters.put("name", messageRoom.getName());
+		parameters.put("user_id", messageRoom.getOwner().getAppUserId());
+		parameters.put("created", messageRoom.getCreated());
 		
-		Object[] parameters = new Object[] {
-			messageRoom.getName(),
-			messageRoom.getOwner().getAppUserId(),
-			messageRoom.getCreated()
-		};
-		
-		jdbcTemplate.update(sql, parameters);
+		return (int) simpleJdbcInsert.executeAndReturnKey(parameters);
 	}
 	
-	public void saveWithOwnerId(MessageRoom messageRoom, int appUserId) {
-		String sql = """
-			INSERT INTO message_rooms (name, user_id, created)
-			VALUES (?,?,?)
-			""";
+	@Transactional
+	public int saveWithOwnerId(MessageRoom messageRoom, int appUserId) {
+		Map<String, Object> parameters = new HashMap<>(3);
+		parameters.put("name", messageRoom.getName());
+		parameters.put("user_id", appUserId);
+		parameters.put("created", messageRoom.getCreated());
 		
-		Object[] parameters = new Object[] {
-			messageRoom.getName(),
-			appUserId,
-			messageRoom.getCreated()
-		};
-		
-		jdbcTemplate.update(sql, parameters);
+		return (int) simpleJdbcInsert.executeAndReturnKey(parameters);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<MessageRoom> findAll() {
 		String sql = """
 			SELECT message_room_id, name, user_id, created
@@ -65,6 +66,7 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 		return messageRooms;
 	}
 	
+	@Transactional(readOnly = true)
 	public Optional<MessageRoom> findById(int id) {
 		String sql = """
 			SELECT message_room_id, name, user_id, created
@@ -80,6 +82,7 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 		return messageRoom;
 	}
 	
+	@Transactional
 	public void deleteById(int id) {
 		String sql = """
 			DELETE FROM message_rooms
@@ -89,6 +92,7 @@ public class MessageRoomDAOImpl implements MessageRoomDAO {
 		jdbcTemplate.update(sql, id);
 	}
 	
+	@Transactional
 	public void updateById(int id, MessageRoom messageRoom) {
 		String sql = """
 			UPDATE message_rooms

@@ -1,12 +1,18 @@
 package com.example.app.message;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.app.messageroom.MessageRoomDAO;
 import com.example.app.user.AppUserDAO;
@@ -17,50 +23,46 @@ public class MessageDAOImpl implements MessageDAO {
 	private final JdbcTemplate jdbcTemplate;
 	private final AppUserDAO appUserDAO;
 	private final MessageRoomDAO messageRoomDAO;
+	private final SimpleJdbcInsert simpleJdbcInsert;
 	
 	@Autowired
 	public MessageDAOImpl(
 		JdbcTemplate jdbcTemplate,
 		AppUserDAO appUserDAO,
-		MessageRoomDAO messageRoomDAO
+		MessageRoomDAO messageRoomDAO,
+		DataSource dataSource
 	) {
 		this.jdbcTemplate = jdbcTemplate;
 		this.appUserDAO = appUserDAO;
 		this.messageRoomDAO = messageRoomDAO;
+		simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+			.withTableName("messages")
+			.usingGeneratedKeyColumns("message_id");
 	}
 	
-	public void save(Message message) {
-		String sql = """
-			INSERT INTO messages (text, user_id, message_room_id, created)
-			VALUES (?,?,?,?)
-			""";
+	@Transactional
+	public int save(Message message) {
+		Map<String, Object> parameters = new HashMap<>(4);
+		parameters.put("text", message.getText());
+		parameters.put("user_id", message.getSender().getAppUserId());
+		parameters.put("message_room_id", message.getMessageRoom().getMessageRoomId());
+		parameters.put("created", message.getCreated());
 		
-		Object[] parameters = new Object[] {
-			message.getText(),
-			message.getSender().getAppUserId(),
-			message.getMessageRoom().getMessageRoomId(),
-			message.getCreated()
-		};
-		
-		jdbcTemplate.update(sql, parameters);
+		return (int) simpleJdbcInsert.executeAndReturnKey(parameters);
 	}
 	
-	public void saveWithSenderId(Message message, int appUserId) {
-		String sql = """
-			INSERT INTO messages (text, user_id, message_room_id, created)
-			VALUES (?,?,?,?)
-			""";
+	@Transactional
+	public int saveWithSenderId(Message message, int appUserId) {
+		Map<String, Object> parameters = new HashMap<>(4);
+		parameters.put("text", message.getText());
+		parameters.put("user_id", appUserId);
+		parameters.put("message_room_id", message.getMessageRoom().getMessageRoomId());
+		parameters.put("created", message.getCreated());
 		
-		Object[] parameters = new Object[] {
-			message.getText(),
-			appUserId,
-			message.getMessageRoom().getMessageRoomId(),
-			message.getCreated()
-		};
-		
-		jdbcTemplate.update(sql, parameters);
+		return (int) simpleJdbcInsert.executeAndReturnKey(parameters);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<Message> findAll() {
 		String sql = """
 			SELECT message_id, text, user_id, message_room_id, created
@@ -74,6 +76,7 @@ public class MessageDAOImpl implements MessageDAO {
 		return messages;
 	}
 	
+	@Transactional(readOnly = true)
 	public List<Message> findAllByMessageRoomId(int id) {
 		String sql = """
 			SELECT message_id, text, user_id, message_room_id, created
@@ -88,6 +91,7 @@ public class MessageDAOImpl implements MessageDAO {
 		return messages;
 	}
 	
+	@Transactional(readOnly = true)
 	public Optional<Message> findById(int id) {
 		String sql = """
 			SELECT message_id, text, user_id, message_room_id, created
@@ -103,6 +107,7 @@ public class MessageDAOImpl implements MessageDAO {
 		return message;
 	}
 	
+	@Transactional
 	public void deleteById(int id) {
 		String sql = """
 			DELETE FROM messages
@@ -112,6 +117,7 @@ public class MessageDAOImpl implements MessageDAO {
 		jdbcTemplate.update(sql, id);
 	}
 	
+	@Transactional
 	public void deleteAllByMessageRoomId(int id) {
 		String sql = """
 			DELETE FROM messages
@@ -121,6 +127,7 @@ public class MessageDAOImpl implements MessageDAO {
 		jdbcTemplate.update(sql, id);
 	}
 	
+	@Transactional
 	public void updateById(int id, Message message) {
 		String sql = """
 			UPDATE messages

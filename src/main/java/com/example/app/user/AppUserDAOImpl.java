@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AppUserDAOImpl implements AppUserDAO {
 
 	private final JdbcTemplate jdbcTemplate;
-	private SimpleJdbcInsert simpleJdbcInsert;
+	private final SimpleJdbcInsert simpleJdbcInsert;
 	
 	@Autowired
 	public AppUserDAOImpl(JdbcTemplate jdbcTemplate, DataSource dataSource) {
