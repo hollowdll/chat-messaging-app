@@ -1,38 +1,44 @@
 package com.example.app.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class AppUserDAOImpl implements AppUserDAO {
 
 	private final JdbcTemplate jdbcTemplate;
+	private SimpleJdbcInsert simpleJdbcInsert;
 	
 	@Autowired
-	public AppUserDAOImpl(JdbcTemplate jdbcTemplate) {
+	public AppUserDAOImpl(JdbcTemplate jdbcTemplate, DataSource dataSource) {
 		this.jdbcTemplate = jdbcTemplate;
+		simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+			.withTableName("users")
+			.usingGeneratedKeyColumns("user_id");
 	}
 	
-	public void save(AppUser appUser) {
-		String sql = """
-			INSERT INTO users (username, password, created)
-			VALUES (?,?,?)
-			""";
+	@Transactional
+	public int save(AppUser appUser) {
+		Map<String, Object> parameters = new HashMap<>(3);
+		parameters.put("username", appUser.getUsername());
+		parameters.put("password", appUser.getHashedPassword());
+		parameters.put("created", appUser.getCreated());
 		
-		Object[] parameters = new Object[] {
-			appUser.getUsername(),
-			appUser.getHashedPassword(),
-			appUser.getCreated()
-		};
-		
-		jdbcTemplate.update(sql, parameters);
+		return (int) simpleJdbcInsert.executeAndReturnKey(parameters);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<AppUser> findAll() {
 		String sql = """
 			SELECT user_id, username, password, created
@@ -46,6 +52,7 @@ public class AppUserDAOImpl implements AppUserDAO {
 		return appUsers;
 	}
 	
+	@Transactional(readOnly = true)
 	public Optional<AppUser> findById(int id) {
 		String sql = """
 			SELECT user_id, username, password, created
@@ -61,6 +68,7 @@ public class AppUserDAOImpl implements AppUserDAO {
 		return appUser;
 	}
 	
+	@Transactional(readOnly = true)
 	public Optional<AppUser> findByUsername(String username) {
 		String sql = """
 			SELECT user_id, username, password, created
@@ -74,30 +82,6 @@ public class AppUserDAOImpl implements AppUserDAO {
 			.findFirst();
 		
 		return appUser;
-	}
-	
-	public void deleteById(int id) {
-		String sql = """
-			DELETE FROM users
-			WHERE user_id = ?
-			""";
-		
-		jdbcTemplate.update(sql, id);
-	}
-	
-	public void updateById(int id, AppUser appUser) {
-		String sql = """
-			UPDATE users
-			SET username = ?, password = ?
-			WHERE user_id = ?
-			""";
-		
-		Object[] parameters = new Object[] {
-			appUser.getUsername(),
-			appUser.getHashedPassword()
-		};
-			
-		jdbcTemplate.update(sql, parameters, id);
 	}
 	
 }

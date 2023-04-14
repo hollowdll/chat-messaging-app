@@ -52,13 +52,11 @@ public class ChatAppApplication {
 			String password = "Testuser1";
 			String hashedPassword = passwordEncoder.encode(password);
 			AppUser appUser = new AppUser(username, hashedPassword);
-			appUser.setAppUserId(1);
 			
 			String username2 = "Testuser2";
 			String password2 = "Testuser2";
 			String hashedPassword2 = passwordEncoder.encode(password2);
 			AppUser appUser2 = new AppUser(username2, hashedPassword2);
-			appUser2.setAppUserId(2);
 			
 			// Save test data
 			
