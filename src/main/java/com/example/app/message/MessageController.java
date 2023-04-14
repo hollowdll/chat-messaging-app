@@ -39,35 +39,6 @@ public class MessageController {
 		this.messageRoomDAO = messageRoomDAO;
 	}
 	
-	// Create message by sending it
-	@PostMapping("/createmessage")
-	public String createMessage(
-		@Valid @ModelAttribute Message message,
-		BindingResult bindingResult,
-		Authentication auth,
-		Model model
-	) {
-		if (bindingResult.hasErrors()) {
-			// Show validation error messages
-			List<String> errorMessages = new ArrayList<String>();
-			bindingResult.getAllErrors().forEach((error) -> {
-				errorMessages.add(error.getDefaultMessage());
-			});
-			
-			model.addAttribute("errorMessages", errorMessages);
-			
-			return "chatrealtime";
-		}
-		
-		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
-		int appUserId = authenticatedUser.getUserId();
-		
-		message.setCreated(LocalDateTime.now());
-		messageDAO.saveWithSenderId(message, appUserId);
-		
-		return "redirect:/messagerooms/" + message.getMessageRoom().getMessageRoomId();
-	}
-	
 	// Message edit page
 	@GetMapping("/editmessage/{id}")
 	public String editMessagePage(@PathVariable("id") int messageId, Authentication auth, Model model) {

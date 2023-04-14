@@ -78,7 +78,7 @@ public class MessageRoomController {
 		model.addAttribute("messageHistory", messageHistory);
 		model.addAttribute("message", message);
 		
-		return "chatrealtime";
+		return "chat";
 	}
 	
 	// Message room create page
