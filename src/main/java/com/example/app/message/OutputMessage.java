@@ -5,13 +5,15 @@ public class OutputMessage {
 	private String text;
 	private String sender;
 	private String time;
+	private int messageRoomId;
 	
 	public OutputMessage() {}
 
-	public OutputMessage(String text, String sender, String time) {
+	public OutputMessage(String text, String sender, String time, int messageRoomId) {
 		this.text = text;
 		this.sender = sender;
 		this.time = time;
+		this.messageRoomId = messageRoomId;
 	}
 
 	public String getText() {
@@ -38,9 +40,18 @@ public class OutputMessage {
 		this.time = time;
 	}
 
+	public int getMessageRoomId() {
+		return messageRoomId;
+	}
+
+	public void setMessageRoomId(int messageRoomId) {
+		this.messageRoomId = messageRoomId;
+	}
+
 	@Override
 	public String toString() {
-		return "OutputMessage [text=" + text + ", sender=" + sender + ", time=" + time + "]";
+		return "OutputMessage [text=" + text + ", sender=" + sender + ", time=" + time + ", messageRoomId="
+				+ messageRoomId + "]";
 	}
 	
 }

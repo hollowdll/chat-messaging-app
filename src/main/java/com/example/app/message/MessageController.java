@@ -158,10 +158,10 @@ public class MessageController {
 	
 	// WebSocket STOMP messages
 	// Receive input messages and
-	// send response message to all subscribed clients
+	// send output message to all subscribed clients
 	@MessageMapping("/chat")
 	@SendTo("/topic/messages")
-	public OutputMessage sendMessageInRealtime(
+	public OutputMessage sendMessageToSubscribedClientsInRealtime(
 		@Valid @RequestBody InputMessage inputMessage,
 		Authentication auth
 	) throws Exception {
@@ -190,7 +190,7 @@ public class MessageController {
 		
 		messageDAO.saveWithSenderId(message, appUserId);
 		
-		return new OutputMessage(inputMessage.getText(), username, formattedTime);
+		return new OutputMessage(inputMessage.getText(), username, formattedTime, messageRoom.getMessageRoomId());
 	}
 	
 }

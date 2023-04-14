@@ -36,6 +36,11 @@ function sendMessage() {
 
 // Shows received message from websocket server
 function showMessageOutput(messageOutput) {
+	let messageRoomId = document.getElementById("message-room-id").value;
+	if (messageOutput.messageRoomId != messageRoomId) {
+		return;
+	}
+	
 	let chatContent = document.querySelector('.chat-content');
 	
 	// Create message HTML structure

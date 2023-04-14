@@ -38,7 +38,7 @@ public class MessageRoomController {
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) auth.getPrincipal();
 		String username = authenticatedUser.getUsername();
 		
-		// Check if user is the owner of this message room
+		// If user is the owner of this message room
 		if (!username.equals(fetchedMessageRoom.getOwner().getUsername())) {
 			return "redirect:/messagerooms";
 		}
@@ -187,6 +187,7 @@ public class MessageRoomController {
 			return "error";
 		}
 		
+		// If user is allowed to delete
 		String result = checkMessageRoomOwner(fetchedMessageRoom, auth);
 		if (result != "ok") {
 			return result;
