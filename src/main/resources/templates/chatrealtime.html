@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-	data-bs-theme="light">
+	data-bs-theme="dark">
 <head>
 	<title>Chat</title>
 	<meta charset="UTF-8">
@@ -14,16 +14,11 @@
 		crossorigin="anonymous">
 	
 	<script defer src="/scripts/main.js"></script>
-	<script defer src="/scripts/chat.js"></script>
 	<script defer src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script defer src="/webjars/stomp-websocket/stomp.min.js"></script>
 	<script defer src="/scripts/websocket-client.js"></script>
 
 	<style>
-		body {
-			
-		}
-
 		.chat-content {
 			width: 100%;
 			height: 60vh;
@@ -31,10 +26,6 @@
 		}
 	
 		.chat-message {
-			background-color: rgb(230,230,230);
-		}
-		
-		.chat-message-dark {
 			background-color: rgb(60,60,60);
 		}
 		
@@ -58,8 +49,6 @@
 		<div class="d-inline">
 			<a href="/messagerooms" class="btn btn-sm btn-secondary">Back to chat rooms</a>
 		</div>
-		
-		<button class="d-inline btn btn-sm btn-secondary" onClick="toggleDarkMode()">Toggle Dark Mode</button>
 		
 		<div class="mt-2">
 			<p>Signed in as <strong sec:authentication="name" id="current-user"></strong></p>
@@ -96,8 +85,11 @@
 				class="btn btn-sm btn-danger"
 				>Delete
 			</button><br>
-			<strong class=""><span th:text="${message.getSender.getUsername}"></span>:</strong>
+			<strong class="text-light"><span th:text="${message.getSender.getUsername}"></span>:</strong>
 			<span th:text="${message.getText}" class="text-break"></span><br>
+		</div>
+		<div>
+			<strong class="text-light">Welcome to the chat room!</strong>
 		</div>
 	</div>
 </div>

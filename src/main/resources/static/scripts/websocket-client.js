@@ -50,6 +50,7 @@ function showMessageOutput(messageOutput) {
 	timeText.innerText = messageOutput.time;
 	let senderText = document.createElement("strong");
 	senderText.innerText = messageOutput.sender + ": ";
+	senderText.className="text-light";
 	let messageText = document.createElement("span");
 	messageText.innerText = messageOutput.text;
 	messageText.className = "text-break";
@@ -60,10 +61,16 @@ function showMessageOutput(messageOutput) {
 	messageDiv.appendChild(messageText);
 	chatContent.appendChild(messageDiv);
 	
+	// Scroll to the newest message
 	chatContent.scrollTop = chatContent.scrollHeight;
 }
 
-// Connect when user joins a chat room
+// When client is ready
 window.addEventListener("DOMContentLoaded", _event => {
+	// Connect when user joins a chat room
 	connect();
+	
+	// Scroll to the newest message
+	let chatContent = document.querySelector('.chat-content');
+	chatContent.scrollTop = chatContent.scrollHeight;
 })
