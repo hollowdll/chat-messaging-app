@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+	data-bs-theme="light">
 <head>
 	<title>Chat</title>
 	<meta charset="UTF-8">
@@ -12,17 +14,28 @@
 		crossorigin="anonymous">
 	
 	<script defer src="/scripts/main.js"></script>
+	<script defer src="/scripts/chat.js"></script>
 	<script defer src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script defer src="/webjars/stomp-websocket/stomp.min.js"></script>
 	<script defer src="/scripts/websocket-client.js"></script>
 
-<style>
+	<style>
+		body {
+			
+		}
+
 		.chat-content {
 			width: 100%;
+			height: 60vh;
+			overflow: auto;
 		}
 	
 		.chat-message {
 			background-color: rgb(230,230,230);
+		}
+		
+		.chat-message-dark {
+			background-color: rgb(60,60,60);
 		}
 		
 		div {
@@ -46,6 +59,8 @@
 			<a href="/messagerooms" class="btn btn-sm btn-secondary">Back to chat rooms</a>
 		</div>
 		
+		<button class="d-inline btn btn-sm btn-secondary" onClick="toggleDarkMode()">Toggle Dark Mode</button>
+		
 		<div class="mt-2">
 			<p>Signed in as <strong sec:authentication="name" id="current-user"></strong></p>
 		</div>
@@ -67,7 +82,7 @@
 	
 	<div class="chat-content">
 		<div th:each="message : ${messageHistory}" class="chat-message">
-			<span th:text="${message.formatCreatedToFinland}"></span>
+			<span class="" th:text="${message.formatCreatedToFinland}"></span>
 			<span th:if="${#authentication.name == message.getSender.getUsername}">
 				<a th:href="@{/editmessage/{id}(id=${message.getMessageId})}" class="btn btn-sm btn-success">Edit</a>
 			</span>
@@ -81,7 +96,7 @@
 				class="btn btn-sm btn-danger"
 				>Delete
 			</button><br>
-			<strong><span th:text="${message.getSender.getUsername}"></span>:</strong>
+			<strong class=""><span th:text="${message.getSender.getUsername}"></span>:</strong>
 			<span th:text="${message.getText}" class="text-break"></span><br>
 		</div>
 	</div>

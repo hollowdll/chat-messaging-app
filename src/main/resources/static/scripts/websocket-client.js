@@ -59,6 +59,8 @@ function showMessageOutput(messageOutput) {
 	messageDiv.appendChild(senderText);
 	messageDiv.appendChild(messageText);
 	chatContent.appendChild(messageDiv);
+	
+	chatContent.scrollTop = chatContent.scrollHeight;
 }
 
 // Connect when user joins a chat room
