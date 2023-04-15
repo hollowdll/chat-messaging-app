@@ -4,7 +4,7 @@ Create and join chat rooms to send messages and talk with other people.
 
 # About
 
-Backend application developed with Spring Boot.
+MVC Backend application developed with Spring Boot.
 
 # Features
 
@@ -14,15 +14,28 @@ Backend application developed with Spring Boot.
 - <strong>Join chat rooms.</strong> All users can view and join chat rooms.
 - <strong>Send messages.</strong> Sent messages show in realtime to all users in the chat room. Message sender can edit and delete their messages.
 - <strong>Message history.</strong> Previous messages will be loaded when user joins a chat room.
-- <strong>Timestamps.</strong> Chat room and message creation date and time will be saved and can be seen. Filtered to Finland's timezone.
+- <strong>Timestamps.</strong> Chat room and message creation date and time will be saved and can be seen. Filtered to Finland's time zone.
 
 # Demo
 
 TODO
 
-# Tech
+# Tech and tools
 
-TODO
+- Developed with Spring Boot framework.
+- Java as main language.
+- Client code uses JavaScript.
+- HTML views created with Thymeleaf template engine.
+- MVC controllers contain endpoint-specific code and return views to users depending on requests.
+- Application secured with Spring security. All users have USER role. Admin role is not needed.
+- Spring JDBC for database operations. Data Access Objects with custom SQL queries that use Spring JdbcTemplate. No Spring Data JPA repositories.
+- WebSocket server and WebSocket client. In this project, WebSocket is used to send user messages in realtime to all subscribed clients, so users don't have to refresh page every time a new message is sent.
+- Server-side validation for user inputs.
+- Database connection with JDBC to PostgreSQL database.
+- Database schema is generated on application startup and it is defined in schema.sql file.
+- Application properties use environment variables to load database configurations (url, password, etc.)
+- Separate profile-specific application properties for testing. This can be loaded with `SPRING_PROFILES_ACTIVE=testing` environment variable.
+- Custom error page. Default whitelabel error page is disabled for users.
 
 # How to build
 
