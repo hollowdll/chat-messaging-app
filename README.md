@@ -2,6 +2,14 @@
 
 Create and join chat rooms to send messages and talk with other people.
 
+![Image of home page](./docs/images/home.JPG?raw=true)
+
+# Demo
+
+Live demo
+
+TODO
+
 # About
 
 MVC Backend application developed with Spring Boot and Java.
@@ -33,10 +41,6 @@ You can also create more rooms. All rooms have their own message history.
 - <strong>Send messages.</strong> Sent messages show in realtime to all users in the chat room. Message sender can edit and delete their messages.
 - <strong>Message history.</strong> Previous messages will be loaded when user joins a chat room.
 - <strong>Timestamps.</strong> Chat room and message creation date and time will be saved and can be seen. Filtered to Finland's time zone.
-
-# Demo
-
-TODO
 
 # Tech and tools
 
