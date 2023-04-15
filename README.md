@@ -22,6 +22,7 @@ MVC Backend application developed with Spring Boot and Java.
 - Create a chat room
 - Join the room
 - Send messages
+- Refresh chat page to edit and delete your messages
 
 To verify if messages are sent in realtime:
 
