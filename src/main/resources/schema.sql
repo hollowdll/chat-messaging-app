@@ -1,5 +1,7 @@
-/* Database schema for production */
-/* Production database admin user: chat_app_database_admin */
+/* Creates database schema for development */
+/* Make sure to create database first */
+/* Delete tables on program startup */
+/* Deletion order matters to prevent errors */
 
 /* Remove these if you don't want to delete existing tables */
 DROP TABLE IF EXISTS public.messages;
@@ -19,7 +21,7 @@ CREATE TABLE IF NOT EXISTS public.users
 );
 
 ALTER TABLE IF EXISTS public.users
-    OWNER to chat_app_database_admin;
+    OWNER to postgres;
 
 /* message_rooms */
 
@@ -33,7 +35,7 @@ CREATE TABLE IF NOT EXISTS public.message_rooms
 );
 
 ALTER TABLE IF EXISTS public.message_rooms
-    OWNER to chat_app_database_admin;
+    OWNER to postgres;
 
 ALTER TABLE IF EXISTS public.message_rooms
     ADD CONSTRAINT fk_message_rooms_users FOREIGN KEY (user_id)
@@ -55,7 +57,7 @@ CREATE TABLE IF NOT EXISTS public.messages
 );
 
 ALTER TABLE IF EXISTS public.messages
-    OWNER to chat_app_database_admin;
+    OWNER to postgres;
 
 ALTER TABLE IF EXISTS public.messages
     ADD CONSTRAINT fk_messages_users FOREIGN KEY (user_id)

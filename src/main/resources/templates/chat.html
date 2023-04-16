@@ -63,7 +63,7 @@
 		</div>
 		
 		<div th:object="${messageRoom}">
-			<input type="text" id="text" placeholder="Send a message" />
+			<input type="text" id="message-text-field" placeholder="Send a message" />
 			<input type="hidden" id="message-room-id" th:field="*{messageRoomId}" />
 			<input type="button" value="Send" onclick="sendMessage()" class="btn btn-sm btn-primary" />
 		</div>

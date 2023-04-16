@@ -23,15 +23,17 @@ function disconnect() {
 
 // Sends a message to websocket server
 function sendMessage() {
-	let text = document.getElementById("text").value;
+	let messageText = document.getElementById("message-text-field").value;
 	let messageRoomId = document.getElementById("message-room-id").value;
 	
-	if (text.length < 1 || text.length > 100) {
+	if (messageText.length < 1 || messageText.length > 100) {
 		return alert("Message must be between 1 and 100 characters!");
 	}
 	
 	stompClient.send("/app/chat", {},
-		JSON.stringify({'text': text, 'messageRoomId': messageRoomId }));
+		JSON.stringify({'text': messageText, 'messageRoomId': messageRoomId }));
+		
+	document.getElementById("message-text-field").value = "";
 }
 
 // Shows received message from websocket server

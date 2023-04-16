@@ -71,8 +71,7 @@ Before running:
 - Set environment variables to match `application.properties` configurations
 - Database connection uses JDBC. Database URL should start with `jdbc:postgresql`
 - Example database URL: `jdbc:postgresql://localhost:5433/test_db`
-- Use schema.sql.development file to generate tables. Rename it to schema.sql if needed. You can also edit it.
-
+- `schema.sql` generates database tables. `schema-production.sql` is for production build.
 
 # Database
 
