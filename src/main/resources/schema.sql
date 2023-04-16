@@ -1,6 +1,11 @@
 /* Database schema for production */
 /* Production database admin user: chat_app_database_admin */
 
+/* Remove these if you don't want to delete existing tables */
+DROP TABLE IF EXISTS public.messages;
+DROP TABLE IF EXISTS public.message_rooms;
+DROP TABLE IF EXISTS public.users;
+
 /* users */
 
 CREATE TABLE IF NOT EXISTS public.users
