@@ -6,9 +6,11 @@ Create and join chat rooms to send messages and talk with other people.
 
 # Demo
 
-Live demo
+<a href="https://chat-app-qapi.onrender.com/" target="_blank">Link to live demo</a>
 
-TODO
+Note! The application might take some time to load for the first time, if it hasn't been used in a while.
+
+The deployment uses a cloud hosted PostgreSQL database. It has 1 GB storage so keep that in mind while using the application.
 
 # About
 
@@ -41,7 +43,7 @@ You can also create more rooms. All rooms have their own message history.
 - <strong>Join chat rooms.</strong> All users can view and join chat rooms.
 - <strong>Send messages.</strong> Sent messages show in realtime to all users in the chat room. Message sender can edit and delete their messages.
 - <strong>Message history.</strong> Previous messages will be loaded when user joins a chat room.
-- <strong>Timestamps.</strong> Chat room and message creation date and time will be saved and can be seen. Filtered to Finland's time zone.
+- <strong>Timestamps.</strong> Chat room and message creation date and time will be saved and can be seen.
 
 # Tech and tools
 
