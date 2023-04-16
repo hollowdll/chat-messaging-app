@@ -2,7 +2,7 @@
 
 # Build stage
 FROM maven:3.8.6-eclipse-temurin-17-focal AS build
-COPY src/main /home/app/src
+COPY src/main /home/app/src/main
 COPY pom.xml /home/app
 RUN mvn -f /home/app/pom.xml clean package
 
