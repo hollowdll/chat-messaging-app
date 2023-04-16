@@ -69,9 +69,14 @@ public class MessageRoom {
 		this.created = created;
 	}
 	
-	// Format to Finland time zone
-	public String formatCreatedToFinland() {
-		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("Europe/Helsinki"));
+	// Format to day/month/year hours:minutes:seconds
+	public String formatCreated() {
+		return created.format(DateTimeFormatter.ofPattern("d.MM.uuuu HH:mm:ss"));
+	}
+	
+	// Format to UTC time
+	public String formatCreatedToUTC() {
+		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("UTC"));
 		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
 	}
 

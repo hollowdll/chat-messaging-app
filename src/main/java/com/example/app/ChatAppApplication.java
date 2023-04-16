@@ -67,34 +67,10 @@ public class ChatAppApplication {
 		};
 	}
 	
-	@Bean
-	@Order(2)
-	public CommandLineRunner fetchTestUsers(AppUserDAO appUserDAO) {
-		return (args) -> {
-			System.out.println();
-			log.info("Fetching all users from database...");
-			
-			List<AppUser> appUsers = appUserDAO.findAll();
-			
-			for (AppUser fetchedUser : appUsers) {
-				System.out.println(fetchedUser);
-			}
-			
-			log.info("Fetching test user from database...");
-			
-			System.out.println(appUserDAO
-				.findById(appUsers.stream()
-					.findFirst()
-					.get()
-					.getAppUserId())
-				.get());
-		};
-	}
-	
 	// This is used only in tests. It saves data to test database that tests can use.
 	// set environment variable 'SPRING_PROFILES_ACTIVE=testing' to execute this
 	@Bean
-	@Order(3)
+	@Order(2)
 	@Profile("testing")
 	public CommandLineRunner initDataForTests(
 		AppUserDAO appUserDAO,

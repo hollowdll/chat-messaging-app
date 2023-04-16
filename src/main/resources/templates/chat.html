@@ -71,7 +71,7 @@
 	
 	<div class="chat-content">
 		<div th:each="message : ${messageHistory}" class="chat-message">
-			<span class="" th:text="${message.formatCreatedToFinland}"></span>
+			<span class="" th:text="${message.formatCreated}"></span>
 			<span th:if="${#authentication.name == message.getSender.getUsername}">
 				<a th:href="@{/editmessage/{id}(id=${message.getMessageId})}" class="btn btn-sm btn-success">Edit</a>
 			</span>
@@ -79,7 +79,7 @@
 				th:onmouseup=
 				"confirmMessageDeletion(
 					[[${message.getMessageId}]],
-					[[${message.formatCreatedToFinland}]],
+					[[${message.formatCreated}]],
 					[[${message.getSender.getUsername}]],
 					[[${message.getText}]])"
 				class="btn btn-sm btn-danger"

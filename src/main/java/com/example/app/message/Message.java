@@ -1,5 +1,6 @@
 package com.example.app.message;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -82,18 +83,12 @@ public class Message {
 	
 	// Format to day/month/year hours:minutes:seconds
 	public String formatCreated() {
-		return created.format(DateTimeFormatter.ofPattern("d/MM/uuuu HH:mm:ss"));
+		return created.format(DateTimeFormatter.ofPattern("d.MM.uuuu HH:mm:ss"));
 	}
 	
 	// Format to UTC time
 	public String formatCreatedToUTC() {
 		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("UTC"));
-		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
-	}
-	
-	// Format to Finland time zone
-	public String formatCreatedToFinland() {
-		ZonedDateTime zonedDateTime = ZonedDateTime.of(created, ZoneId.of("Europe/Helsinki"));
 		return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
 	}
 

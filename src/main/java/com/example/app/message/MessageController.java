@@ -148,16 +148,12 @@ public class MessageController {
 		String username = authenticatedUser.getUsername();
 		int appUserId = authenticatedUser.getUserId();
 		
-		// Get Finland time zone
-		LocalDateTime time = LocalDateTime.now();
-		ZonedDateTime zonedDateTime = ZonedDateTime.of(time, ZoneId.of("Europe/Helsinki"));
-		String formattedTime = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime);
-		
 		// Save message to database
 		Message message = new Message();
 		message.setText(inputMessage.getText());
 		message.setMessageRoom(messageRoom);
-		message.setCreated(time);
+		message.setCreated(LocalDateTime.now());
+		String formattedTime = message.formatCreated();
 		
 		messageDAO.saveWithSenderId(message, appUserId);
 		

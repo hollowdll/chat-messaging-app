@@ -47,7 +47,7 @@
 					<td th:text="${messageRoom.getMessageRoomId}"></td>
 					<td th:text="${messageRoom.getName}"></td>
 					<td th:text="${messageRoom.getOwner.getUsername}"></td>
-					<td th:text="${messageRoom.formatCreatedToFinland}"></td>
+					<td th:text="${messageRoom.formatCreated}"></td>
 					<td><a th:href="@{/messagerooms/{id}(id=${messageRoom.getMessageRoomId})}" class="btn btn-sm btn-primary">Join</a></td>
 					<td>
 						<a th:if="${#authentication.name == messageRoom.getOwner.getUsername}"

@@ -73,6 +73,8 @@ Before running:
 - Example database URL: `jdbc:postgresql://localhost:5433/test_db`
 - `schema.sql` generates database tables. `schema-production.sql` is for production build.
 
+In production build, you need to set environment variable `SPRING_PROFILES_ACTIVE=production`. With this, `application-production.properties` will be used. When running the application locally, default profile will be used instead.
+
 # Database
 
 This project uses PostgreSQL as database.
