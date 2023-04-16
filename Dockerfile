@@ -13,7 +13,6 @@ EXPOSE 8080
 
 # Set environment variables
 ENV PORT=8080
-ENV DB_URL=url
 
 # Execute
 ENTRYPOINT ["java", "-jar", "/usr/local/lib/pkg.jar"]
