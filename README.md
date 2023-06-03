@@ -6,11 +6,7 @@ Create and join chat rooms to send messages and talk with other people.
 
 # Demo
 
-<a href="https://chat-app-qapi.onrender.com/">Link to live demo</a>
-
-Note! The application might take some time to load for the first time, if it hasn't been used in a while.
-
-The deployment uses a cloud hosted PostgreSQL database. It has 1 GB storage so keep that in mind while using the application.
+Currently no live deployment.
 
 # About
 
